@@ -13,5 +13,17 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "img.a.transfermarkt.technology",
+      },
+      {
+        protocol: "https",
+        hostname: "tmssl.akamaized.net",
+      },
+    ],
+  },
 };
 export default config;
