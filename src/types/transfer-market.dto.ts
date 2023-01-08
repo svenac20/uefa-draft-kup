@@ -1,4 +1,4 @@
-export interface TransferMarketResponse {
+export interface PlayerSearchReponse{
   count: Count;
   players?: (PlayersEntity)[] | null;
   clubs?: (ClubsEntity)[] | null;
@@ -11,7 +11,7 @@ export interface Count {
   referees: number;
 }
 export interface PlayersEntity {
-  id: string;
+  id: number;
   playerName: string;
   firstName: string;
   lastName: string;
@@ -27,4 +27,28 @@ export interface ClubsEntity {
   competitionName: string;
   name: string;
   logoImage: string;
+}
+
+export interface PlayerValueResponse {
+  share: Share;
+  marketValueDevelopment?: (MarketValueDevelopmentEntity)[] | null;
+}
+export interface Share {
+  title: string;
+  url: string;
+  description: string;
+}
+export interface MarketValueDevelopmentEntity {
+  date: string;
+  unformattedDate: string;
+  age: string;
+  marketValue: string;
+  marketValueUnformatted: number;
+  marketValueCurrency: string;
+  marketValueNumeral: string;
+  clubID: string;
+  clubName: string;
+  clubShortName: string;
+  clubImage: string;
+  seasonID: string;
 }
