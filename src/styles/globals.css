@@ -4,6 +4,10 @@
 
 @layer base {
   body {
-    @apply bg-gray-800 text-white
+    @apply bg-gray-800 text-white h-screen
+  }
+
+  body > div {
+    @apply h-full
   }
 }

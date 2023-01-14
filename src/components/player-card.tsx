@@ -41,12 +41,12 @@ export const PlayerCard = ({ player }: { player: PlayersEntity }) => {
   };
 
   return (
-    <div className="flex h-full w-full flex-row">
+    <div className="flex h-full w-full flex-row border-4 border-stone-500 rounded-md ">
       <Image
         alt="playerImage"
         src={player.playerImage}
-        width={100}
-        height={100}
+        width={200}
+        height={500}
         className="inline rounded"
       />
       <div className="ml-2 flex flex-col">
