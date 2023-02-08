@@ -24,6 +24,7 @@ const config = {
         hostname: "tmssl.akamaized.net",
       },
     ],
+
   },
 };
 export default config;

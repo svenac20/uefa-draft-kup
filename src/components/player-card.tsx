@@ -1,70 +1,115 @@
-import React from "react";
+import React from 'react'
 import type {
-	MarketValueDevelopmentEntity,
+  MarketValueDevelopmentEntity,
+  PlayerProfile,
+  PlayerProfileReponse,
   PlayersEntity,
   PlayerValueResponse,
-} from "../types/transfer-market.dto";
-import Image from "next/image.js";
-import { useQuery } from "@tanstack/react-query";
-import { env } from "../env/client.mjs";
-import axios from "axios";
-import SmallSpinner from "./small-spinner";
+} from '../types/transfer-market.dto'
+import Image from 'next/image.js'
+import { useQuery } from '@tanstack/react-query'
+import { env } from '../env/client.mjs'
+import axios from 'axios'
+import SmallSpinner from './small-spinner'
+import PlayerInfo from './player-info'
+
+const getPlayerMarketValue = async (
+  id: number
+): Promise<MarketValueDevelopmentEntity | undefined> => {
+  const options = {
+    method: 'GET',
+    url: 'https://transfermarket.p.rapidapi.com/players/get-market-value',
+    params: { id: id, domain: 'com' },
+    headers: {
+      'X-RapidAPI-Key': env.NEXT_PUBLIC_TRANSFERMARKET_KEY,
+      'X-RapidAPI-Host': env.NEXT_PUBLIC_TRANSFERMARKET_HOST,
+    },
+  }
+
+  const data: PlayerValueResponse = (await axios.request(options)).data
+
+  return data.marketValueDevelopment?.[0] || undefined
+}
+
+const getPlayerProfile = async (id: number): Promise<PlayerProfile> => {
+  const options = {
+    method: 'GET',
+    url: 'https://transfermarket.p.rapidapi.com/players/get-profile',
+    params: { id: id, domain: 'com' },
+    headers: {
+      'X-RapidAPI-Key': env.NEXT_PUBLIC_TRANSFERMARKET_KEY,
+      'X-RapidAPI-Host': env.NEXT_PUBLIC_TRANSFERMARKET_HOST,
+    },
+  }
+
+  const data: PlayerProfileReponse = (await axios.request(options)).data
+
+  return data.playerProfile
+}
 
 export const PlayerCard = ({ player }: { player: PlayersEntity }) => {
-  const getPlayerValue = async (id: number): Promise<MarketValueDevelopmentEntity | undefined> => {
-    const options = {
-      method: "GET",
-      url: "https://transfermarket.p.rapidapi.com/players/get-market-value",
-      params: { id: id, domain: "com" },
-      headers: {
-        "X-RapidAPI-Key": env.NEXT_PUBLIC_TRANSFERMARKET_KEY,
-        "X-RapidAPI-Host": env.NEXT_PUBLIC_TRANSFERMARKET_HOST,
-      },
-    };
+  const getPlayerValue = async (
+    id: number
+  ): Promise<{
+    marketValue: MarketValueDevelopmentEntity | undefined
+    playerProfile: PlayerProfile
+  }> => {
+    const marketValue = await getPlayerMarketValue(id)
+    const playerProfile = await getPlayerProfile(id)
 
-    const data: PlayerValueResponse = (await axios.request(options)).data;
-
-    if (!data) {
-      return ;
-    }
-    return data.marketValueDevelopment?.[0];
-  };
+    return { marketValue, playerProfile }
+  }
 
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ["playerPrice", player.id],
+    queryKey: ['playerPrice', player.id],
     queryFn: () => getPlayerValue(player.id),
     enabled: false,
-  });
+  })
 
   const fetchPlayerPrice = () => {
-    refetch();
-  };
+    refetch()
+  }
 
   return (
-    <div className="flex h-full w-full flex-row border-4 border-stone-500 rounded-md ">
-      <Image
-        alt="playerImage"
-        src={player.playerImage}
-        width={200}
-        height={500}
-        className="inline rounded"
-      />
-      <div className="ml-2 flex flex-col">
-        <span className="bold mt-2">
-          {player.playerName} ({player.club})
-        </span>
-        <button
-          className="mt-2 w-24 rounded bg-white p-2 text-black"
-          onClick={(e) => fetchPlayerPrice()}
-        >
-          Show price
-        </button>
+    <div className="flex h-full w-full flex-col rounded-md border-4 border-stone-500 ">
+      <div className="relative h-1/2 w-full">
+        <Image
+          alt="playerImage"
+          src={player.playerImage}
+          className="inline rounded"
+          layout="fill"
+        />
+      </div>
+
+      <div className="flex w-full items-center justify-center p-4 pb-0 font-bold">
+        {player.playerName}
+      </div>
+
+      <div className="ml-2 flex flex-grow flex-row p-4">
+        {!data && !isFetching && (
+          <div className="flex h-full w-full items-center justify-center">
+            <button
+              className="mt-2 h-12 rounded bg-white p-2 text-black"
+              onClick={(e) => fetchPlayerPrice()}
+            >
+              Show Info
+            </button>
+          </div>
+        )}
+
         {isFetching ? (
-					   <SmallSpinner/>
+          <div className="flex w-full items-center justify-center">
+            <SmallSpinner />
+          </div>
+        ) : data ? (
+          <PlayerInfo
+            marketValue={data.marketValue}
+            playerInfo={data.playerProfile}
+          ></PlayerInfo>
         ) : (
-					data ? <span>{data.marketValue}{data.marketValueNumeral.toLocaleUpperCase()} {data.marketValueCurrency}</span> : ""
+          ''
         )}
       </div>
     </div>
-  );
-};
+  )
+}
