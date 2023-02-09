@@ -13,7 +13,8 @@ const Header = () => {
   const res = Array.from(Array(numberOfPlayers).keys())
 
   return (
-    numberOfPlayers > 0 && (
+    <>
+    {numberOfPlayers > 0 && (
       <div className={`flex h-20 items-center justify-around border-b-4`}>
         {res.map((number) => {
           return (
@@ -37,6 +38,7 @@ const Header = () => {
                 border-0
                 className="bg-transparent text-center text-white outline-none"
                 placeholder="Please enter name.."
+
                 data-key={number}
                 onChange={(e) =>
                   setPlayerNames(
@@ -49,7 +51,8 @@ const Header = () => {
           )
         })}
       </div>
-    )
+    )}
+  </>
   )
 }
 
