@@ -1,14 +1,13 @@
-import { type NextPage } from 'next'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { useState } from 'react'
-import { env } from '../env/client.mjs'
 import Image from 'next/image'
+import { useState } from 'react'
+import Header from '../components/Layout/header'
 import { PlayerCard } from '../components/player-card'
-import type { PlayerSearchReponse } from '../types/transfer-market.dto.js'
+import { env } from '../env/client.mjs'
 import nextPageIcon from '../public/images/next-page.png'
 import previousPageIcon from '../public/images/previous-page.png'
-import Header from '../components/Layout/header'
+import type { PlayerSearchReponse } from '../types/transfer-market.dto.js'
 
 const PlayerSearch = () => {
   const [playerName, setPlayerName] = useState('')

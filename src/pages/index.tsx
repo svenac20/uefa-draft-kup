@@ -1,29 +1,21 @@
-import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link.js";
-import { useRouter } from "next/router";
-import { Component, useEffect, useState } from "react";
-import { constants } from "../types/local-storage.constants";
+import { stat } from 'fs'
+import { type NextPage } from 'next'
+import Head from 'next/head'
+import Link from 'next/link.js'
+import { useRouter } from 'next/router'
+import { Component, useEffect, useState } from 'react'
+import useGameSettingsStore from '../store/game-settings-store'
+import { constants } from '../types/local-storage.constants'
 
 const Home: NextPage = () => {
-  const [numberOfPlayers, setNumberOfPlayers] = useState(0);
+  const [numberOfPlayers, setNumberOfPlayers] = useState(0)
   const [budget, setBudget] = useState(0)
   const router = useRouter()
-
-  useEffect(() => {
-    localStorage.removeItem(constants.BUDGET)
-    localStorage.removeItem(constants.NUMBER_OF_PLAYERS)
-  }, [])
+  const setBudgetAndPlayers = useGameSettingsStore(state => state.setBudgetAndPlayers)
 
   const startGame = () => {
-    setLocalstorageVariables()
-    router.push("/player-search")
-  }
-
-  const setLocalstorageVariables = () => {
-    localStorage.setItem(constants.BUDGET, budget.toString())
-    localStorage.setItem(constants.NUMBER_OF_PLAYERS, numberOfPlayers.toString())
-    localStorage.setItem(constants.SELECTED_PLAYER, "1")
+    setBudgetAndPlayers(budget, numberOfPlayers)
+    router.push('/player-search')
   }
 
   return (
@@ -53,17 +45,20 @@ const Home: NextPage = () => {
             onChange={(e) => setBudget(Number(e.target.value))}
           ></input>
         </div>
-        <button className="mt-2 font-bold border-2 rounded h-10 bg-black-100" onClick={startGame}>
+        <button
+          className="bg-black-100 mt-2 h-10 rounded border-2 font-bold"
+          onClick={startGame}
+        >
           {/* <Link
             className="m-auto rounded bg-white p-4 text-black"
             href={"/player-search"}
           > */}
-            Start game
+          Start game
           {/* </Link> */}
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
