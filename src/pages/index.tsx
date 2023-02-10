@@ -1,5 +1,4 @@
 import { type NextPage } from 'next'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import useGameSettingsStore from '../store/game-settings-store'

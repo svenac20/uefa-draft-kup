@@ -1,19 +1,21 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import Header from '../../components/Layout/header'
 import { PlayerCard } from '../../components/player-card'
+import { PlayerSelectModal } from '../../components/player-select-modal'
 import { env } from '../../env/client.mjs'
 import nextPageIcon from '../../public/images/next-page.png'
 import previousPageIcon from '../../public/images/previous-page.png'
-import type { PlayerSearchReponse } from '../../types/transfer-market.dto.js'
 import type { PlayerPosition } from '../../types/player-positions'
-import Link from 'next/link'
+import type { PlayerSearchReponse } from '../../types/transfer-market.dto.js'
 
 const PlayerSearch = ({ position }: { position: PlayerPosition }) => {
   const [playerName, setPlayerName] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+  const [showModal, setShowModal] = useState(false)
 
   const getPlayers = async (name: string) => {
     console.log(currentPage)
@@ -45,6 +47,7 @@ const PlayerSearch = ({ position }: { position: PlayerPosition }) => {
   return (
     <>
       <Header></Header>
+      <PlayerSelectModal show={showModal} showModal={setShowModal} />
       <div className="flex h-5/6 w-full flex-col p-8">
         <div className="flex w-full flex-row">
           <div className="mr-4 flex w-2/4 flex-col">
@@ -64,7 +67,7 @@ const PlayerSearch = ({ position }: { position: PlayerPosition }) => {
               Search
             </button>
           </div>
-          <div className="flex items-end justify-end flex-row flex-grow">
+          <div className="flex flex-grow flex-row items-end justify-end">
             <Link href={'/player-squad'}>
               <button className="rounded bg-white p-2 text-black">
                 Return to squad
@@ -94,7 +97,13 @@ const PlayerSearch = ({ position }: { position: PlayerPosition }) => {
             {!isFetching &&
               data &&
               data.map((player) => {
-                return <PlayerCard player={player} key={player.id}></PlayerCard>
+                return (
+                  <PlayerCard
+                    player={player}
+                    showModal={setShowModal}
+                    key={player.id}
+                  ></PlayerCard>
+                )
               })}
             {isFetching && (
               <div className="align-center mt-4 h-5/6 justify-center">
