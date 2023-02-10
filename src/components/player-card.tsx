@@ -34,8 +34,9 @@ export const PlayerCard = ({ player, showModal }: { player: PlayersEntity, showM
     return { marketValue, playerProfile }
   }
 
-  const fetchPlayerPrice = () => {
+  const fetchPlayerPrice = (e : MouseEvent) => {
     refetch()
+    e.stopPropagation();
   }
 
   const displayModal = () => {
@@ -45,7 +46,7 @@ export const PlayerCard = ({ player, showModal }: { player: PlayersEntity, showM
   return (
     <>
       <div
-        className="flex h-full w-full flex-col rounded-md border-4 border-stone-500 "
+        className="flex h-full w-full flex-col rounded-md border-4 border-stone-500 cursor-pointer"
         onClick={displayModal}
       >
         <div className="relative h-1/2 w-full">
@@ -66,7 +67,7 @@ export const PlayerCard = ({ player, showModal }: { player: PlayersEntity, showM
             <div className="flex h-full w-full items-center justify-center">
               <button
                 className="mt-2 h-12 rounded bg-white p-2 text-black"
-                onClick={(e) => fetchPlayerPrice()}
+                onClick={(e) => fetchPlayerPrice(e)}
               >
                 Show Info
               </button>
