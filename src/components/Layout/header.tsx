@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <>
     {numberOfPlayers > 0 && (
-      <div className={`flex h-20 items-center justify-around border-b-4`}>
+      <div className={`flex h-16 items-center justify-around border-b-4`}>
         {res.map((number) => {
           return (
             <div

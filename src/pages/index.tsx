@@ -1,11 +1,8 @@
-import { stat } from 'fs'
 import { type NextPage } from 'next'
-import Head from 'next/head'
-import Link from 'next/link.js'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Component, useEffect, useState } from 'react'
+import { useState } from 'react'
 import useGameSettingsStore from '../store/game-settings-store'
-import { constants } from '../types/local-storage.constants'
 
 const Home: NextPage = () => {
   const [numberOfPlayers, setNumberOfPlayers] = useState(0)
@@ -15,7 +12,7 @@ const Home: NextPage = () => {
 
   const startGame = () => {
     setBudgetAndPlayers(budget, numberOfPlayers)
-    router.push('/player-search')
+    router.push('/player-squad')
   }
 
   return (
@@ -49,12 +46,7 @@ const Home: NextPage = () => {
           className="bg-black-100 mt-2 h-10 rounded border-2 font-bold"
           onClick={startGame}
         >
-          {/* <Link
-            className="m-auto rounded bg-white p-4 text-black"
-            href={"/player-search"}
-          > */}
           Start game
-          {/* </Link> */}
         </button>
       </div>
     </div>

@@ -2,14 +2,16 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import Image from 'next/image'
 import { useState } from 'react'
-import Header from '../components/Layout/header'
-import { PlayerCard } from '../components/player-card'
-import { env } from '../env/client.mjs'
-import nextPageIcon from '../public/images/next-page.png'
-import previousPageIcon from '../public/images/previous-page.png'
-import type { PlayerSearchReponse } from '../types/transfer-market.dto.js'
+import Header from '../../components/Layout/header'
+import { PlayerCard } from '../../components/player-card'
+import { env } from '../../env/client.mjs'
+import nextPageIcon from '../../public/images/next-page.png'
+import previousPageIcon from '../../public/images/previous-page.png'
+import type { PlayerSearchReponse } from '../../types/transfer-market.dto.js'
+import type { PlayerPosition } from '../../types/player-positions'
+import Link from 'next/link'
 
-const PlayerSearch = () => {
+const PlayerSearch = ({ position }: { position: PlayerPosition }) => {
   const [playerName, setPlayerName] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -61,6 +63,13 @@ const PlayerSearch = () => {
             >
               Search
             </button>
+          </div>
+          <div className="flex items-end justify-end flex-row flex-grow">
+            <Link href={'/player-squad'}>
+              <button className="rounded bg-white p-2 text-black">
+                Return to squad
+              </button>
+            </Link>
           </div>
         </div>
 
