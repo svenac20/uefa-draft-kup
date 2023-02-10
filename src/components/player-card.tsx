@@ -34,7 +34,7 @@ export const PlayerCard = ({ player, showModal }: { player: PlayersEntity, showM
     return { marketValue, playerProfile }
   }
 
-  const fetchPlayerPrice = (e : MouseEvent) => {
+  const fetchPlayerPrice = (e : React.MouseEvent) => {
     refetch()
     e.stopPropagation();
   }
