@@ -35,7 +35,6 @@ const Header = () => {
             >
               <input
                 type="text"
-                border-0
                 className="bg-transparent text-center text-white outline-none"
                 placeholder="Please enter name.."
 

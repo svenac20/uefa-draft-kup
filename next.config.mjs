@@ -24,6 +24,7 @@ const config = {
         hostname: "tmssl.akamaized.net",
       },
     ],
+    domains: ['flagsapi.com', 'countryflagsapi.com']
 
   },
 };
