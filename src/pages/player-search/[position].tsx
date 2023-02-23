@@ -2,22 +2,30 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
+import router, { useRouter } from 'next/router'
 import { useState } from 'react'
 import Header from '../../components/Layout/header'
 import { PlayerCard } from '../../components/player-card'
-import { PlayerSelectModal } from '../../components/player-select-modal'
 import { env } from '../../env/client.mjs'
 import nextPageIcon from '../../public/images/next-page.png'
 import previousPageIcon from '../../public/images/previous-page.png'
+import useGameSettingsStore from '../../store/game-settings-store'
+import usePlayerSquadStore from '../../store/player-squad-store'
 import type { PlayerPosition } from '../../types/player-positions'
-import type { PlayerSearchReponse } from '../../types/transfer-market.dto.js'
-import CountryCodeMap from '../../types/country-codes'
+import type { MarketValueDevelopmentEntity, PlayerProfile, PlayerSearchReponse } from '../../types/transfer-market.dto.js'
+import type { UpdateSquad } from '../../types/update-squad.interface'
 
-const PlayerSearch = ({ position }: { position: PlayerPosition }) => {
+const PlayerSearch = () => {
+  const router = useRouter()
+  const { position } = router.query
+
   const [playerName, setPlayerName] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [showModal, setShowModal] = useState(false)
   const [enabled, setEnabled] = useState(false)
+
+  const addPlayerToSquad = usePlayerSquadStore(state => state.addPlayerToSquad)
+  const selectedPlayer = useGameSettingsStore(state => state.selectedPlayer)
+  const updateBudget = useGameSettingsStore(state => state.updateBudget)
 
   const getPlayers = async (name: string, page: number) => {
     const options = {
@@ -68,10 +76,31 @@ const PlayerSearch = ({ position }: { position: PlayerPosition }) => {
     }
   }
 
+  const handleSelectPlayer = (playerProfile: PlayerProfile , marketValue: MarketValueDevelopmentEntity | undefined) => {
+    if (!marketValue) {
+      return
+    }
+
+    const player: UpdateSquad = {
+      index: selectedPlayer,
+      playerProfile,
+      marketValue,
+      position: position as PlayerPosition
+    }
+    
+    
+    addPlayerToSquad(player)
+    updateBudget(selectedPlayer, Number(marketValue.marketValue.replace(",", ".")))
+    router.push("/player-squad")
+  }
+
+  const onPlayerChange = (selectedPlayerIndex: number) => {
+    return null
+  }
+
   return (
     <>
-      <Header></Header>
-      <PlayerSelectModal show={showModal} showModal={setShowModal} />
+      <Header onPlayerChange={onPlayerChange}></Header>
       <div className="flex h-5/6 w-full flex-col p-12">
         <div className="flex w-full flex-row">
           <div className="mr-4 flex w-2/4 flex-col">
@@ -123,10 +152,11 @@ const PlayerSearch = ({ position }: { position: PlayerPosition }) => {
             {!isFetching &&
               data &&
               data.map((player) => {
+                player.playerImage = player.playerImage.replace('medium', 'big')
                 return (
                   <PlayerCard
                     player={player}
-                    showModal={setShowModal}
+                    selectedPlayer={handleSelectPlayer}
                     key={player.id}
                   ></PlayerCard>
                 )

@@ -2,15 +2,18 @@ import { type NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import useGameSettingsStore from '../store/game-settings-store'
+import usePlayerSquadStore from '../store/player-squad-store'
 
 const Home: NextPage = () => {
   const [numberOfPlayers, setNumberOfPlayers] = useState(0)
   const [budget, setBudget] = useState(0)
   const router = useRouter()
   const setBudgetAndPlayers = useGameSettingsStore(state => state.setBudgetAndPlayers)
+  const setPlayers = usePlayerSquadStore(state => state.setNumberOfPlayers)
 
   const startGame = () => {
     setBudgetAndPlayers(budget, numberOfPlayers)
+    setPlayers(numberOfPlayers)
     router.push('/player-squad')
   }
 

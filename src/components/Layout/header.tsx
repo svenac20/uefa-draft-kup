@@ -3,14 +3,14 @@ import { number } from 'zod'
 import useGameSettingsStore from '../../store/game-settings-store'
 import { constants } from '../../types/local-storage.constants'
 
-const Header = () => {
+const Header = ({onPlayerChange} : {onPlayerChange : (selectedPlayerIndex : number) => void }) => {
   const numberOfPlayers = useGameSettingsStore((state) => state.numberOfPlayers)
   const setPlayerNames = useGameSettingsStore((state) => state.setPlayerNames)
   const selectedPlayer = useGameSettingsStore((state) => state.selectedPlayer)
   const setSelectedPlayer = useGameSettingsStore(
     (state) => state.setSelectedPlayer
   )
-  const res = Array.from(Array(numberOfPlayers).keys())
+  const res = Array.from(Array(numberOfPlayers).keys()) 
 
   return (
     <>
@@ -31,6 +31,7 @@ const Header = () => {
                 setSelectedPlayer(
                   Number((e.target as HTMLDivElement).getAttribute('data-key'))
                 )
+                
               }}
             >
               <input

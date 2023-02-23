@@ -3,12 +3,13 @@ import { devtools, persist } from 'zustand/middleware'
 
 interface GameSettingsState {
   numberOfPlayers: number
-  budget: number
   selectedPlayer: number
   playerNames: Array<string>
+  playersBudget: Array<number>
   setBudgetAndPlayers: (budget: number, numOfPlayers: number) => void
   setPlayerNames: (name: string, index: number) => void
   setSelectedPlayer: (index: number) => void
+  updateBudget: (index: number, playerValue: number) => void
 }
 
 const setPlayerName = (
@@ -20,27 +21,35 @@ const setPlayerName = (
   return initalNames
 }
 
+const setPlayerBudget = (budgets: Array<number> ,index: number, value: number) => {
+  budgets[index] -= value
+  return budgets
+}
+
 const useGameSettingsStore = create<GameSettingsState>()(
   devtools(
     persist(
       (set) => ({
         numberOfPlayers: 0,
-        budget: 0,
         selectedPlayer: 0,
         playerNames: [],
+        playersBudget: [],
         setBudgetAndPlayers: (budget, numOfPlayers) =>
           set(() => ({
-            budget: budget,
             numberOfPlayers: numOfPlayers,
             playerNames: Array<string>(numOfPlayers),
+            playersBudget: Array<number>(numOfPlayers).fill(budget),
           })),
         setPlayerNames: (name, index) =>
           set((state) => ({
             playerNames: setPlayerName(state.playerNames, index, name),
           })),
-      setSelectedPlayer(index) {
-          set(() => ({selectedPlayer: index}))
-      },
+        setSelectedPlayer(index) {
+          set(() => ({ selectedPlayer: index }))
+        },
+        updateBudget(index, playerValue) {
+          set((state) => ({playersBudget: setPlayerBudget(state.playersBudget,index, playerValue)}))
+        }
       }),
       {
         name: 'game-settings',

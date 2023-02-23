@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import React from 'react'
+import React, { useState } from 'react'
 import { env } from '../env/client.mjs'
 import type {
   MarketValueDevelopmentEntity,
@@ -13,14 +13,19 @@ import card from '../public/images/Kartica.png'
 import Image from 'next/image'
 import CountryCodeMap from '../types/country-codes'
 import SmallSpinner from './small-spinner'
+import { PlayerSelectModal } from './player-select-modal'
 
 export const PlayerCard = ({
   player,
-  showModal,
+  selectedPlayer,
 }: {
-  player: PlayersEntity
-  showModal: (value: boolean) => void
+  player: PlayersEntity 
+  selectedPlayer: (
+    player: PlayerProfile,
+    marketValue: MarketValueDevelopmentEntity | undefined
+  ) => void
 }) => {
+  const [showModal, setShowModal] = useState(false)
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['playerPrice', player.id],
     queryFn: () => getPlayerValue(player.id),
@@ -28,13 +33,16 @@ export const PlayerCard = ({
   })
 
   const getPlayerValue = async (
-    id: number
+    id: number 
   ): Promise<{
     marketValue: MarketValueDevelopmentEntity | undefined
     playerProfile: PlayerProfile
   }> => {
     const marketValue = await getPlayerMarketValue(id)
     const playerProfile = await getPlayerProfile(id)
+
+    playerProfile.countryImage= `https://countryflagsapi.com/png/${CountryCodeMap.get(playerProfile.country)}`
+    playerProfile.playerImage = playerProfile.playerImage.replace('medium', 'big')
 
     return { marketValue, playerProfile }
   }
@@ -44,20 +52,27 @@ export const PlayerCard = ({
     e.stopPropagation()
   }
 
-  const displayModal = () => {
-    showModal(true)
+  const onModalConfirm = () => {
+    if (data) {
+      selectedPlayer(data?.playerProfile, data?.marketValue)
+    }
   }
 
   return (
     <>
+      <PlayerSelectModal
+        show={showModal}
+        showModal={setShowModal}
+        onModalConfirm={onModalConfirm}
+      />
       <div
         className="relative flex h-full w-full cursor-pointer flex-col rounded-md border-2 border-green-800"
-        onClick={displayModal}
+        onClick={() => setShowModal(true)}
       >
         <Image src={card} fill={true} alt="kartica" />
         <div className="absolute -z-10 ml-1 h-1/2 w-player-image">
           <Image
-            src={player.playerImage.replace('medium', 'big')}
+            src={player.playerImage}
             alt="player-image"
             fill={true}
             sizes="100%"
@@ -75,9 +90,7 @@ export const PlayerCard = ({
             ) : (
               <div className="relative mb-1 h-[87%] w-[89%]">
                 <Image
-                  src={`https://countryflagsapi.com/png/${CountryCodeMap.get(
-                    data?.playerProfile.country
-                  )}`}
+                  src={data?.playerProfile.countryImage}
                   alt="player-nation"
                   fill={true}
                   sizes="100%"
@@ -99,11 +112,15 @@ export const PlayerCard = ({
           <div className="relative z-10 ml-8 mt-1 flex h-[36%] w-[73%] items-center justify-center truncate rounded-xl">
             <span className="truncate font-bold">{player.playerName}</span>
           </div>
-          <div className="w-player-price  relative ml-8 mt-2 h-[36%] w-[73%] rounded-xl  flex items-center justify-center font-bold">
+          <div className="w-player-price  relative ml-8 mt-2 flex h-[36%] w-[73%]  items-center justify-center rounded-xl font-bold">
             {isFetching ? (
               <SmallSpinner />
             ) : (
-              <span>{data?.marketValue?.marketValue}{data?.marketValue?.marketValueNumeral.toLocaleUpperCase()} {data?.marketValue?.marketValueCurrency} </span>
+              <span>
+                {data?.marketValue?.marketValue}
+                {data?.marketValue?.marketValueNumeral.toLocaleUpperCase()}{' '}
+                {data?.marketValue?.marketValueCurrency}{' '}
+              </span>
             )}
           </div>
         </div>

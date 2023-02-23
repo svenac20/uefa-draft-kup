@@ -1,15 +1,20 @@
 export const PlayerSelectModal = ({
   show,
   showModal,
+  onModalConfirm,
 }: {
   show: boolean
   showModal: (value: boolean) => void
+  onModalConfirm: () => void
 }) => {
-  const hideModal = (value: boolean) => {
-    show = value
-    showModal(value)
+  const handleCancelClick = () => {
+    showModal(false)
   }
 
+  const handleConfirmClick = () => {
+    showModal(false)
+    onModalConfirm()
+  }
   return (
     <>
       {show ? (
@@ -29,14 +34,14 @@ export const PlayerSelectModal = ({
                   <button
                     className="bg-red-600 mr-1 mb-1 rounded px-6 py-3 text-sm font-bold uppercase text-white outline-none transition-all duration-150 ease-linear focus:outline-none"
                     type="button"
-                    onClick={() => hideModal(false)}
+                    onClick={() => handleCancelClick()}
                   >
                     Close
                   </button>
                   <button
                     className="mr-1 mb-1 rounded bg-emerald-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
                     type="button"
-                    onClick={() => hideModal(false)}
+                    onClick={() => handleConfirmClick()}
                   >
                     Select
                   </button>
