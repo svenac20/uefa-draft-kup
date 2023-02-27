@@ -39,10 +39,7 @@ const updateSquad = (
       marketValue.marketValueCurrency.toLocaleUpperCase(),
   })
 
-  console.log("INDEX JE " + updateEntity.index)
   squad[updateEntity.index] = currentSquad 
-
-  console.log(squad)
 
   return squad
 }

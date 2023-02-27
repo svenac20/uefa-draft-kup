@@ -145,7 +145,7 @@ const PlayerSearch = () => {
           <div
             className={`mt-4  ${
               !isFetching && data
-                ? 'grid flex-grow grid-cols-5 grid-rows-2 gap-16'
+                ? 'grid flex-grow grid-cols-5 grid-rows-2 gap-20'
                 : 'w-full'
             }`}
           >

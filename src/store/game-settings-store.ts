@@ -22,7 +22,7 @@ const setPlayerName = (
 }
 
 const setPlayerBudget = (budgets: Array<number> ,index: number, value: number) => {
-  budgets[index] -= value
+  budgets[index] -= isNaN(value) ? 0 : value 
   return budgets
 }
 
