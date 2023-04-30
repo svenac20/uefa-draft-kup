@@ -1,18 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import Image from 'next/image'
 import Link from 'next/link'
-import router, { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
 import Header from '../../components/Layout/header'
 import { PlayerCard } from '../../components/player-card'
 import { env } from '../../env/client.mjs'
-import nextPageIcon from '../../public/images/next-page.png'
-import previousPageIcon from '../../public/images/previous-page.png'
 import useGameSettingsStore from '../../store/game-settings-store'
 import usePlayerSquadStore from '../../store/player-squad-store'
 import type { PlayerPosition } from '../../types/player-positions'
-import type { MarketValueDevelopmentEntity, PlayerProfile, PlayerSearchReponse } from '../../types/transfer-market.dto.js'
+import type {
+  MarketValueDevelopmentEntity,
+  PlayerProfile,
+  PlayerSearchReponse,
+} from '../../types/transfer-market.dto.js'
 import type { UpdateSquad } from '../../types/update-squad.interface'
 
 const PlayerSearch = () => {
@@ -20,21 +21,21 @@ const PlayerSearch = () => {
   const { position } = router.query
 
   const [playerName, setPlayerName] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
   const [enabled, setEnabled] = useState(false)
 
-  const addPlayerToSquad = usePlayerSquadStore(state => state.addPlayerToSquad)
-  const selectedPlayer = useGameSettingsStore(state => state.selectedPlayer)
-  const updateBudget = useGameSettingsStore(state => state.updateBudget)
+  const addPlayerToSquad = usePlayerSquadStore(
+    (state) => state.addPlayerToSquad
+  )
+  const selectedPlayer = useGameSettingsStore((state) => state.selectedPlayer)
+  const updateBudget = useGameSettingsStore((state) => state.updateBudget)
 
-  const getPlayers = async (name: string, page: number) => {
+  const getPlayers = async (name: string) => {
     const options = {
       method: 'GET',
       url: 'https://transfermarket.p.rapidapi.com/search',
       params: {
         query: name,
         domain: 'com',
-        page: page.toLocaleString()
       },
       headers: {
         'X-RapidAPI-Key': env.NEXT_PUBLIC_TRANSFERMARKET_KEY,
@@ -43,47 +44,50 @@ const PlayerSearch = () => {
     }
 
     const data: PlayerSearchReponse = (await axios.request(options)).data
-    console.log(data.players)
     return data.players
   }
 
   // Using the hook
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ['players', currentPage],
-    queryFn: () => getPlayers(playerName,currentPage),
+    queryKey: ['players'],
+    queryFn: () => getPlayers(playerName),
     enabled: enabled,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   })
 
   const searchNewPlayer = () => {
     setEnabled(false)
-    if (currentPage == 1) {
-      refetch()  
-    }
-    else {
-      setCurrentPage(1)
-    }
+    refetch()  
   }
 
-  const handleSelectPlayer = (playerProfile: PlayerProfile , marketValue: MarketValueDevelopmentEntity | undefined) => {
+  const handleSelectPlayer = (
+    playerProfile: PlayerProfile,
+    marketValue: MarketValueDevelopmentEntity | undefined
+  ) => {
     if (!marketValue) {
       marketValue = {} as MarketValueDevelopmentEntity
-      marketValue.marketValueNumeral = "M"
-      marketValue.marketValue = "0"
-      marketValue.marketValueCurrency = "€"
+      marketValue.marketValueNumeral = 'M'
+      marketValue.marketValue = '0'
+      marketValue.marketValueCurrency = '€'
     }
 
     const player: UpdateSquad = {
       index: selectedPlayer,
       playerProfile,
       marketValue,
-      position: position as PlayerPosition
+      position: position as PlayerPosition,
     }
     
     
+    
+
+    
     addPlayerToSquad(player)
-    updateBudget(selectedPlayer, Number(marketValue.marketValue.replace(",", ".")))
-    router.push("/player-squad")
+    updateBudget(
+      selectedPlayer,
+      Number(marketValue.marketValue.replace(',', '.'))
+    )
+    router.push('/player-squad')
   }
 
   return (
@@ -97,10 +101,11 @@ const PlayerSearch = () => {
               id="playerNameInput"
               type="text"
               className="w-full rounded p-4 text-black"
-              onChange={(e) => {setPlayerName(e.target.value);}} 
+              onChange={(e) => {
+                setPlayerName(e.target.value)
+              }}
               onKeyDown={(e) => {
-                if (e.key == "Enter")
-                  searchNewPlayer()
+                if (e.key == 'Enter') searchNewPlayer()
               }}
             />
           </div>

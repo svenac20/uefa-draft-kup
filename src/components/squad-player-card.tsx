@@ -86,7 +86,7 @@ export const SquadPlayercard = ({
         </>
       ) : (
         <div className="flex cursor-pointer items-center justify-center">
-          <div className="w-60 h-full relative max-w-xs rounded-md border-2 border-green-800 border-opacity-20">
+          <div className="w-60 h-full relative max-w-xs rounded-md border-2 border-green-800 border-opacity-20 opacity-70">
             <Link href={`/player-search/${position}`} >
               <Image src={card} fill={true} alt="kartica" sizes='100%'/>
             </Link>
