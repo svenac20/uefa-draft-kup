@@ -52,7 +52,7 @@ export const PlayerCard = ({
     e.stopPropagation()
   }
 
-  const  onModalConfirm = async () => {
+  const  onModalConfirm = () => {
     if (data) {
       selectedPlayer(data?.playerProfile, data?.marketValue)
     }
