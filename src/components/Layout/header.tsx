@@ -4,6 +4,7 @@ import fortuneWheel from '../../public/images/fortune-wheel.png'
 import icon from '../../public/images/soccer-player.png'
 import veto from '../../public/images/veto.png'
 import yellowCard from '../../public/images/yellow-card.png'
+import reroll from '../../public/images/dices.png'
 import useGameSettingsStore from '../../store/game-settings-store'
 
 const Header = () => {
@@ -23,7 +24,7 @@ const Header = () => {
           state.playerNames.map((item, index) => (
             <div
               key={index}
-              className={`h-full pt-2 cursor-pointer ${
+              className={`h-full pt-2 cursor-pointer  ${
                 selectedPlayer == index ? 'border-2 border-white' : 'border-2 border-opacity-10 border-white'
               }`}
               onClick={(e) => {
@@ -115,6 +116,20 @@ const Header = () => {
                     }`}
                     onClick={(e) => {
                       updatePerk(index, 'veto')
+                      e.stopPropagation()
+                    }}
+                  />
+                  <Image
+                    src={reroll}
+                    alt="yellow-card"
+                    height={30}
+                    className={`${
+                      state.playerPerks[index]?.reroll
+                        ? 'opacity-40'
+                        : 'opacity-100'
+                    }`}
+                    onClick={(e) => {
+                      updatePerk(index, 'reroll')
                       e.stopPropagation()
                     }}
                   />
