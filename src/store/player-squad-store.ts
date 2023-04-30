@@ -52,7 +52,6 @@ const usePlayerSquadStore = create<PlayerSquad>()(
             })
 
             state.squad[updateEntity.index] = currentSquad
-            console.log(state.squad)
             return { squad: state.squad }
           }),
         removePlayerFromSquad: (index, position) =>

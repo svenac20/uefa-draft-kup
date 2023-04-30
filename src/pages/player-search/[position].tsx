@@ -98,6 +98,10 @@ const PlayerSearch = () => {
               type="text"
               className="w-full rounded p-4 text-black"
               onChange={(e) => {setPlayerName(e.target.value);}} 
+              onKeyDown={(e) => {
+                if (e.key == "Enter")
+                  searchNewPlayer()
+              }}
             />
           </div>
           <div className="flex flex-col-reverse">
