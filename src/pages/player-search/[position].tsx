@@ -89,7 +89,7 @@ const PlayerSearch = () => {
   return (
     <>
       <Header></Header>
-      <div className="flex h-5/6 w-full flex-col p-16">
+      <div className="flex h-5/6 w-full flex-col p-16 px-24">
         <div className="flex w-full flex-row px-8 pl-0">
           <div className="mr-4 flex w-2/4 flex-col">
             <label htmlFor="playerNameInput">Search player</label>

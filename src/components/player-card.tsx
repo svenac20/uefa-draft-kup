@@ -41,7 +41,7 @@ export const PlayerCard = ({
     const marketValue = await getPlayerMarketValue(id)
     const playerProfile = await getPlayerProfile(id)
 
-    playerProfile.countryImage = `https://flagcdn.com/192x144/${CountryCodeMap.get(
+    playerProfile.countryImage = `https://flagcdn.com/224x168/${CountryCodeMap.get(
       playerProfile.country
     )?.toLocaleLowerCase()}.png`
     playerProfile.playerImage = playerProfile.playerImage.replace(
@@ -75,7 +75,7 @@ export const PlayerCard = ({
         onClick={() => setShowModal(true)}
       >
         <Image src={card} fill={true} alt="kartica" />
-        <div className="absolute -z-10 ml-1 h-1/2 w-player-image">
+        <div className="absolute -z-10 ml-2 h-1/2 w-player-image">
           <Image
             src={player.playerImage}
             alt="player-image"
@@ -84,16 +84,16 @@ export const PlayerCard = ({
           />
         </div>
         <div className="z-1 absolute top-1 left-1/2 flex h-1/2 w-1/2 flex-col">
-          <div className="flex h-1/2 w-full items-center justify-center">
+          <div className="flex h-[55%] w-full items-center justify-center">
             {!data ? (
               <button
-                className="h-1/2 rounded bg-green-800 p-2 font-bold"
+                className="mb-4 h-1/2 rounded bg-green-800 p-2 pb-4 font-bold"
                 onClick={fetchPlayerPrice}
               >
                 Show info
               </button>
             ) : (
-              <div className="relative mb-1 h-[87%] w-[89%]">
+              <div className="relative mb-2 h-[83%] w-[89%]">
                 <Image
                   src={data?.playerProfile.countryImage}
                   alt="player-nation"
@@ -105,11 +105,11 @@ export const PlayerCard = ({
           </div>
           <div className="relative ml-5 mt-1 flex h-[40%] w-[60%] items-center justify-center">
             {isFetching ? (
-              <div className="ml-2">
+              <div className="mb-2 ml-3">
                 <SmallSpinner />
               </div>
             ) : (
-              <span className="ml-1 mt-1 font-bold">
+              <span className="ml-1 mb-2 font-bold">
                 {data?.playerProfile.age}
               </span>
             )}
@@ -119,9 +119,11 @@ export const PlayerCard = ({
           <div className="relative z-10 ml-8 mt-1 flex h-[36%] w-[73%] items-center justify-center truncate rounded-xl">
             <span className="ml-4 truncate font-bold">{player.playerName}</span>
           </div>
-          <div className="w-player-price  relative ml-8 mt-2 flex h-[36%] w-[73%]  items-center justify-center rounded-xl font-bold">
+          <div className="w-player-price relative ml-8 mt-2 flex h-[36%] w-[73%]  items-center justify-center rounded-xl font-bold">
             {isFetching ? (
-              <SmallSpinner />
+              <div className="ml-8">
+                <SmallSpinner />
+              </div>
             ) : (
               <span className="ml-6">
                 {data?.marketValue?.marketValue}

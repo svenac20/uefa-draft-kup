@@ -19,6 +19,7 @@ interface Perks {
   veto: boolean
   icon: boolean
   wheel: boolean
+  yellowCard: boolean
 }
 
 const setPlayerName = (
@@ -52,7 +53,7 @@ const useGameSettingsStore = create<GameSettingsState>()(
           set((state) => {
             const perks = Array<Perks>(numOfPlayers)
             for (let i = 0; i <numOfPlayers; i++) {
-              perks[i] = {icon: false, veto: false, wheel: false}
+              perks[i] = {icon: false, veto: false, wheel: false, yellowCard: true}
             }
             
             return {
