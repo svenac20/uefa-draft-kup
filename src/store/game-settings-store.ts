@@ -49,7 +49,7 @@ const useGameSettingsStore = create<GameSettingsState>()(
         },
         updateBudget(index, playerValue) {
           set((state) => ({playersBudget: setPlayerBudget(state.playersBudget,index, playerValue)}))
-        }
+        },
       }),
       {
         name: 'game-settings',
