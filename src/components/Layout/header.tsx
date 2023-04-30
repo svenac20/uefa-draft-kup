@@ -55,7 +55,10 @@ const Header = () => {
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
-                    onClick={(e) => updatePerk(index, 'icon')}
+                    onClick={(e) => {
+                      updatePerk(index, 'icon') 
+                      e.stopPropagation()
+                    }}
                   />
                   <Image
                     src={fortuneWheel}
@@ -66,7 +69,10 @@ const Header = () => {
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
-                    onClick={(e) => updatePerk(index, 'wheel')}
+                    onClick={(e) => {
+                      updatePerk(index, 'wheel')
+                      e.stopPropagation()
+                    }}
                   />
                   <Image
                     src={veto}
@@ -77,7 +83,10 @@ const Header = () => {
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
-                    onClick={(e) => updatePerk(index, 'veto')}
+                    onClick={(e) => {
+                      updatePerk(index, 'veto')
+                      e.stopPropagation()
+                  }}
                   />
                 </div>
 
@@ -87,6 +96,7 @@ const Header = () => {
                     onClick={(e) => {
                       e.preventDefault()
                       setShowPrice(true)
+                      e.stopPropagation()
                     }}
                   >
                     Budget
@@ -98,6 +108,7 @@ const Header = () => {
                     onClick={(e) => {
                       e.preventDefault()
                       setShowPrice(false)
+                      e.stopPropagation()
                     }}
                   >
                     {playerBudget[index]}M€

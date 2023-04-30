@@ -36,7 +36,6 @@ export const SquadPlayercard = ({
   const onModalConfirm = () => {
     const player = getPlayer(index)
     removePlayerFromSquad(index, position)
-    console.log(player?.marketValue.replace(/[^\d,]/g, '').replace(",", "."))
     updateBudgetOnPlayerRemoval(
       index,
       Number(player?.marketValue.replace(/[^\d,]/g, '').replace(",", "."))
