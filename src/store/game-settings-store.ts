@@ -54,7 +54,7 @@ const useGameSettingsStore = create<GameSettingsState>()(
           set((state) => {
             const perks = Array<Perks>(numOfPlayers)
             for (let i = 0; i <numOfPlayers; i++) {
-              perks[i] = {icon: false, veto: false, wheel: false, yellowCard: true}
+              perks[i] = {icon: false, veto: false, wheel: false, yellowCard: true, reroll: false}
             }
             
             return {
