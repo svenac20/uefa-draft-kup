@@ -56,7 +56,14 @@ const usePlayerSquadStore = create<PlayerSquad>()(
           }),
         removePlayerFromSquad: (index, position) =>
           set((state) => {
+            const player = state.squad[index]?.get(position)
+            
+            if (!player) {
+              return {state}
+            }
+
             state.squad[index]?.delete(position)
+                     
             return { squad: state.squad }
           }),
       }),

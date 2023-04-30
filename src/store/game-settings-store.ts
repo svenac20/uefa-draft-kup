@@ -12,6 +12,7 @@ interface GameSettingsState {
   setSelectedPlayer: (index: number) => void
   updateBudget: (index: number, playerValue: number) => void
   updatePerk: (index: number, perk: string) => void
+  updateBudgetOnPlayerRemoval: (index: number, playerValue: number) => void
 }
 
 interface Perks {
@@ -53,7 +54,7 @@ const useGameSettingsStore = create<GameSettingsState>()(
             for (let i = 0; i <numOfPlayers; i++) {
               perks[i] = {icon: false, veto: false, wheel: false}
             }
-
+            
             return {
               numberOfPlayers: numOfPlayers,
               playerNames: Array<string>(numOfPlayers).fill(''),
@@ -87,9 +88,15 @@ const useGameSettingsStore = create<GameSettingsState>()(
             
             perkForPlayer[key] = !perkForPlayer[key]
             state.playerPerks[index] = perkForPlayer
-            console.log()
             return { playerPerks: state.playerPerks}
           })
+        },
+        updateBudgetOnPlayerRemoval(index, playerValue) {
+           set((state) => {
+            const budget = state.playersBudget
+            budget[index] += playerValue
+            return {playersBudget: budget}
+           }) 
         },
       }),
       {

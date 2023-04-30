@@ -6,6 +6,7 @@ import card from '../public/images/Kartica.png'
 import usePlayerSquadStore from '../store/player-squad-store'
 import type { PlayerPosition } from '../types/player-positions'
 import { PlayerSelectModal } from './player-select-modal'
+import useGameSettingsStore from '../store/game-settings-store'
 
 export const SquadPlayercard = ({
   position,
@@ -17,6 +18,9 @@ export const SquadPlayercard = ({
   const squad = usePlayerSquadStore((state) => state.squad)
   const removePlayerFromSquad = usePlayerSquadStore(
     (state) => state.removePlayerFromSquad
+  )
+  const updateBudgetOnPlayerRemoval = useGameSettingsStore(
+    (state) => state.updateBudgetOnPlayerRemoval
   )
   const [showModal, setShowModal] = useState(false)
 
@@ -30,7 +34,13 @@ export const SquadPlayercard = ({
   }
 
   const onModalConfirm = () => {
+    const player = getPlayer(index)
     removePlayerFromSquad(index, position)
+    console.log(player?.marketValue.replace(/[^\d,]/g, '').replace(",", "."))
+    updateBudgetOnPlayerRemoval(
+      index,
+      Number(player?.marketValue.replace(/[^\d,]/g, '').replace(",", "."))
+    )
     refetch()
   }
 
