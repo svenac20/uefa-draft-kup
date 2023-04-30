@@ -47,7 +47,6 @@ const Header = () => {
 
                 <div className="flex flex-row justify-center  gap-3">
                   <Image
-                    key={index}
                     src={icon}
                     alt="old-man-icon"
                     height={30}
@@ -59,7 +58,6 @@ const Header = () => {
                     onClick={(e) => updatePerk(index, 'icon')}
                   />
                   <Image
-                    key={index}
                     src={fortuneWheel}
                     alt="old-man-icon"
                     height={30}
@@ -71,7 +69,6 @@ const Header = () => {
                     onClick={(e) => updatePerk(index, 'wheel')}
                   />
                   <Image
-                    key={index}
                     src={veto}
                     alt="old-man-icon"
                     height={30}

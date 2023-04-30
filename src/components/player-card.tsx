@@ -52,7 +52,7 @@ export const PlayerCard = ({
     e.stopPropagation()
   }
 
-  const onModalConfirm = () => {
+  const  onModalConfirm = async () => {
     if (data) {
       selectedPlayer(data?.playerProfile, data?.marketValue)
     }
@@ -75,7 +75,7 @@ export const PlayerCard = ({
             src={player.playerImage}
             alt="player-image"
             fill={true}
-            sizes="100%"
+            sizes="100% 100%"
           />
         </div>
         <div className="z-1 absolute top-1 left-1/2 flex h-1/2 w-1/2 flex-col">

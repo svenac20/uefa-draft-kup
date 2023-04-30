@@ -78,10 +78,6 @@ const PlayerSearch = () => {
       position: position as PlayerPosition,
     }
     
-    
-    
-
-    
     addPlayerToSquad(player)
     updateBudget(
       selectedPlayer,
