@@ -1,11 +1,14 @@
 export const PlayerSelectModal = ({
   show,
+  text,
   showModal,
   onModalConfirm,
 }: {
   show: boolean
+  text?: string 
   showModal: (value: boolean) => void
   onModalConfirm: () => void
+
 }) => {
   const handleCancelClick = () => {
     showModal(false)
@@ -26,7 +29,7 @@ export const PlayerSelectModal = ({
                 {/*body*/}
                 <div className="relative flex-auto p-12">
                   <p className="my-4 text-lg font-bold leading-relaxed text-white">
-                    Do you want to select this player?
+                    {text || 'Do you want to select this player?'}
                   </p>
                 </div>
                 {/*footer*/}

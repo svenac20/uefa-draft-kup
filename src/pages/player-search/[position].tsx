@@ -82,15 +82,11 @@ const PlayerSearch = () => {
     router.push("/player-squad")
   }
 
-  const onPlayerChange = (selectedPlayerIndex: number) => {
-    return null
-  }
-
   return (
     <>
-      <Header onPlayerChange={onPlayerChange}></Header>
+      <Header></Header>
       <div className="flex h-5/6 w-full flex-col p-16">
-        <div className="flex w-full flex-row px-8 pl-2">
+        <div className="flex w-full flex-row px-8">
           <div className="mr-4 flex w-2/4 flex-col">
             <label htmlFor="playerNameInput">Search player</label>
             <input

@@ -1,20 +1,13 @@
 import { useState } from 'react'
 import useGameSettingsStore from '../../store/game-settings-store'
-import usePlayerSquadStore from '../../store/player-squad-store'
 
-const Header = ({
-  onPlayerChange,
-}: {
-  onPlayerChange: (selectedPlayerIndex: number) => void
-}) => {
+const Header = () => {
   const setPlayerNames = useGameSettingsStore((state) => state.setPlayerNames)
   const selectedPlayer = useGameSettingsStore((state) => state.selectedPlayer)
   const setSelectedPlayer = useGameSettingsStore(
     (state) => state.setSelectedPlayer
   )
   const playerBudget = useGameSettingsStore((state) => state.playersBudget)
-  const playerSquad = usePlayerSquadStore((state) => state.squad)
-
   const [showPrice, setShowPrice] = useState(false)
 
   return (
@@ -31,9 +24,7 @@ const Header = ({
                     : ''
                 }`}
               onClick={(e) => {
-                setSelectedPlayer(
-                  Number((e.target as HTMLDivElement).getAttribute('data-key'))
-                )
+                setSelectedPlayer(index)
               }}
             >
               <input
@@ -43,10 +34,7 @@ const Header = ({
                 value={item}
                 data-key={index}
                 onChange={(e) => {
-                  setPlayerNames(
-                    e.target.value,
-                    index
-                  )
+                  setPlayerNames(e.target.value, index)
                 }}
               />
 

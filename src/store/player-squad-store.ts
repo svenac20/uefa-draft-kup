@@ -1,14 +1,14 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import { PlayerPosition } from '../types/player-positions'
-import { UpdateSquad } from '../types/update-squad.interface'
-import { SquadPlayercard } from '../components/squad-player-card'
+import type { PlayerPosition } from '../types/player-positions'
+import type { UpdateSquad } from '../types/update-squad.interface'
 
 interface PlayerSquad {
   nubmerOfPlayers: number
   squad: Array<Map<PlayerPosition, SquadPlayer>>
   setNumberOfPlayers: (numberOfPlayers: number) => void
   addPlayerToSquad: (updateEntity: UpdateSquad) => void
+  removePlayerFromSquad: (index: number, position: PlayerPosition) => void
 }
 
 interface SquadPlayer {
@@ -26,7 +26,6 @@ const updateSquad = (
   const currentSquad = squad[updateEntity.index] ?? new Map<PlayerPosition, SquadPlayer>()
   const playerProfile = updateEntity.playerProfile
   const marketValue = updateEntity.marketValue
-
 
   currentSquad?.set(updateEntity.position, {
     playerName: playerProfile.playerName,
@@ -59,6 +58,11 @@ const usePlayerSquadStore = create<PlayerSquad>()(
           set((state) => ({
             squad: updateSquad(state.squad, updateEntity),
           })),
+        removePlayerFromSquad: (index, position) => 
+          set((state) => {
+            state.squad[index]?.delete(position)
+            return {squad: state.squad}
+          }),
       }),
       {
         name: 'player-squad',

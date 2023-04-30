@@ -37,7 +37,7 @@ const useGameSettingsStore = create<GameSettingsState>()(
         setBudgetAndPlayers: (budget, numOfPlayers) =>
           set(() => ({
             numberOfPlayers: numOfPlayers,
-            playerNames: Array<string>(numOfPlayers),
+            playerNames: Array<string>(numOfPlayers).fill(""),
             playersBudget: Array<number>(numOfPlayers).fill(budget),
           })),
         setPlayerNames: (name, index) =>
