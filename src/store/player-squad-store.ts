@@ -19,30 +19,6 @@ interface SquadPlayer {
   marketValue: string
 }
 
-const updateSquad = (
-  squad: Array<Map<PlayerPosition, SquadPlayer>>,
-  updateEntity: UpdateSquad
-) => {
-  const currentSquad = squad[updateEntity.index] ?? new Map<PlayerPosition, SquadPlayer>()
-  const playerProfile = updateEntity.playerProfile
-  const marketValue = updateEntity.marketValue
-
-  currentSquad?.set(updateEntity.position, {
-    playerName: playerProfile.playerName,
-    age: Number(playerProfile.age),
-    countryImage: playerProfile.countryImage,
-    playerImage: playerProfile.playerImage,
-    marketValue:
-      marketValue.marketValue +
-      marketValue.marketValueNumeral.toLocaleUpperCase() +
-      marketValue.marketValueCurrency.toLocaleUpperCase(),
-  })
-
-  squad[updateEntity.index] = currentSquad 
-
-  return squad
-}
-
 const usePlayerSquadStore = create<PlayerSquad>()(
   devtools(
     persist(
@@ -55,13 +31,34 @@ const usePlayerSquadStore = create<PlayerSquad>()(
             squad: new Array(numberOfPlayers),
           })),
         addPlayerToSquad: (updateEntity) =>
-          set((state) => ({
-            squad: updateSquad(state.squad, updateEntity),
-          })),
-        removePlayerFromSquad: (index, position) => 
+          set((state) => {
+            const playerProfile = updateEntity.playerProfile
+            const marketValue = updateEntity.marketValue
+
+            let currentSquad = state.squad[updateEntity.index]
+            if (!currentSquad) {
+              currentSquad = new Map<PlayerPosition, SquadPlayer>
+            }
+
+            currentSquad?.set(updateEntity.position, {
+              playerName: playerProfile.playerName,
+              age: Number(playerProfile.age),
+              countryImage: playerProfile.countryImage,
+              playerImage: playerProfile.playerImage,
+              marketValue:
+                marketValue.marketValue +
+                marketValue.marketValueNumeral.toLocaleUpperCase() + " " +
+                marketValue.marketValueCurrency.toLocaleUpperCase(),
+            })
+
+            state.squad[updateEntity.index] = currentSquad
+            console.log(state.squad)
+            return { squad: state.squad }
+          }),
+        removePlayerFromSquad: (index, position) =>
           set((state) => {
             state.squad[index]?.delete(position)
-            return {squad: state.squad}
+            return { squad: state.squad }
           }),
       }),
       {

@@ -22,13 +22,13 @@ const PlayerSquad: NextPage = () => {
           <SquadPlayercard position="CAM" index={index} />
           <SquadPlayercard position="CM_2" index={index} />
         </div>
-        <div className="grid h-1/3 grid-cols-4 grid-rows-1 justify-center">
+        <div className="grid h-1/4 grid-cols-4 grid-rows-1 justify-center">
           <SquadPlayercard position="LB" index={index} />
           <SquadPlayercard position="CB_1" index={index} />
           <SquadPlayercard position="CB_2" index={index} />
           <SquadPlayercard position="RB" index={index} />
         </div>
-        <div className="grid h-1/3 grid-cols-1 grid-rows-1 justify-center">
+        <div className="grid h-1/4 grid-cols-1 grid-rows-1 justify-center">
           <SquadPlayercard position="GK" index={index} />
         </div>
       </div>

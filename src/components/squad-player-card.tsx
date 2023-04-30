@@ -1,13 +1,10 @@
-import Link from 'next/link'
-import router from 'next/router'
-import React, { useEffect, useRef, useState } from 'react'
-import type { PlayerPosition } from '../types/player-positions'
-import useGameSettingsStore from '../store/game-settings-store'
-import usePlayerSquadStore from '../store/player-squad-store'
-import { PlayerCard } from './player-card'
-import Image from 'next/image'
-import card from '../public/images/Kartica.png'
 import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
+import card from '../public/images/Kartica.png'
+import usePlayerSquadStore from '../store/player-squad-store'
+import type { PlayerPosition } from '../types/player-positions'
 import { PlayerSelectModal } from './player-select-modal'
 
 export const SquadPlayercard = ({
@@ -73,24 +70,24 @@ export const SquadPlayercard = ({
                   </div>
                 </div>
                 <div className="relative ml-5 mt-1 flex h-[40%] w-[60%] items-center justify-center">
-                  <span className="font-bold">{data.age}</span>
+                  <span className="font-bold mr-1">{data.age}</span>
                 </div>
               </div>
               <div className="absolute top-[49%] h-1/2 w-full">
                 <div className="relative z-10 ml-8 mt-1 flex h-[36%] w-[73%] items-center justify-center truncate rounded-xl">
-                  <span className="truncate font-bold">{data.playerName}</span>
+                  <span className="truncate font-bold ml-1">{data.playerName}</span>
                 </div>
                 <div className="w-player-price  relative ml-8 mt-2 flex h-[36%] w-[73%]  items-center justify-center rounded-xl font-bold">
-                  <span>{data.marketValue}</span>
+                  <span className="ml-4 mb-1">{data.marketValue}</span>
                 </div>
               </div>
             </div>
           </div>
         </>
       ) : (
-        <div className="flex cursor-pointer items-center justify-center p-8">
-          <div className="w-1/2 h-full relative max-w-sm">
-            <Link href={`/player-search/${position}`}>
+        <div className="flex cursor-pointer items-center justify-center">
+          <div className="w-60 h-full relative max-w-xs rounded-md border-2 border-green-800 border-opacity-20">
+            <Link href={`/player-search/${position}`} >
               <Image src={card} fill={true} alt="kartica" sizes='100%'/>
             </Link>
           </div>

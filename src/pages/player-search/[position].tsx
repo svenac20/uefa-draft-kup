@@ -43,6 +43,7 @@ const PlayerSearch = () => {
     }
 
     const data: PlayerSearchReponse = (await axios.request(options)).data
+    console.log(data.players)
     return data.players
   }
 
@@ -66,7 +67,10 @@ const PlayerSearch = () => {
 
   const handleSelectPlayer = (playerProfile: PlayerProfile , marketValue: MarketValueDevelopmentEntity | undefined) => {
     if (!marketValue) {
-      return
+      marketValue = {} as MarketValueDevelopmentEntity
+      marketValue.marketValueNumeral = "M"
+      marketValue.marketValue = "0"
+      marketValue.marketValueCurrency = "€"
     }
 
     const player: UpdateSquad = {
@@ -86,7 +90,7 @@ const PlayerSearch = () => {
     <>
       <Header></Header>
       <div className="flex h-5/6 w-full flex-col p-16">
-        <div className="flex w-full flex-row px-8">
+        <div className="flex w-full flex-row px-8 pl-0">
           <div className="mr-4 flex w-2/4 flex-col">
             <label htmlFor="playerNameInput">Search player</label>
             <input
