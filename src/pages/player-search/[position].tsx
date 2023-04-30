@@ -54,18 +54,6 @@ const PlayerSearch = () => {
     refetchOnWindowFocus: false
   })
 
-  const fetchPreviousPage = () => {
-    if (currentPage != 1) {
-      setEnabled(true)
-      setCurrentPage(currentPage - 1)
-    }
-  }
-
-  const fetchNextPage = () => {
-    setEnabled(true)
-    setCurrentPage(currentPage + 1)
-  }
-
   const searchNewPlayer = () => {
     setEnabled(false)
     if (currentPage == 1) {
@@ -101,8 +89,8 @@ const PlayerSearch = () => {
   return (
     <>
       <Header onPlayerChange={onPlayerChange}></Header>
-      <div className="flex h-5/6 w-full flex-col p-12">
-        <div className="flex w-full flex-row">
+      <div className="flex h-5/6 w-full flex-col p-16">
+        <div className="flex w-full flex-row px-8 pl-2">
           <div className="mr-4 flex w-2/4 flex-col">
             <label htmlFor="playerNameInput">Search player</label>
             <input
@@ -110,7 +98,7 @@ const PlayerSearch = () => {
               type="text"
               className="w-full rounded p-4 text-black"
               onChange={(e) => {setPlayerName(e.target.value);}} 
-            ></input>
+            />
           </div>
           <div className="flex flex-col-reverse">
             <button
@@ -130,18 +118,6 @@ const PlayerSearch = () => {
         </div>
 
         <div className="flex-column flex w-full flex-grow p-8 pl-2">
-          {!isFetching && data && (
-            <div className="flex h-full w-16 items-center justify-center p-4 pl-1 mr-2">
-              <Image
-                className="cursor-pointer"
-                src={previousPageIcon}
-                alt={'previous-page-icon'}
-                width={67}
-                height={68}
-                onClick={(e) => fetchPreviousPage()}
-              ></Image>
-            </div>
-          )}
           <div
             className={`mt-4  ${
               !isFetching && data
@@ -169,18 +145,6 @@ const PlayerSearch = () => {
               </div>
             )}
           </div>
-          {!isFetching && data && (
-            <div className="flex h-full w-16 items-center justify-center p-4 pr-2">
-              <Image
-                className="cursor-pointer"
-                src={nextPageIcon}
-                alt={'next-page-icon'}
-                width={67}
-                height={68}
-                onClick={(e) => fetchNextPage()}
-              ></Image>
-            </div>
-          )}
         </div>
       </div>
     </>

@@ -41,7 +41,8 @@ export const PlayerCard = ({
     const marketValue = await getPlayerMarketValue(id)
     const playerProfile = await getPlayerProfile(id)
 
-    playerProfile.countryImage= `https://countryflagsapi.com/png/${CountryCodeMap.get(playerProfile.country)}`
+    console.log( `https://flagcdn.com/120x90/${CountryCodeMap.get(playerProfile.country)}.png`)
+    playerProfile.countryImage= `https://flagcdn.com/192x144/${CountryCodeMap.get(playerProfile.country)?.toLocaleLowerCase()}.png`
     playerProfile.playerImage = playerProfile.playerImage.replace('medium', 'big')
 
     return { marketValue, playerProfile }
@@ -93,7 +94,7 @@ export const PlayerCard = ({
                   src={data?.playerProfile.countryImage}
                   alt="player-nation"
                   fill={true}
-                  sizes="100%"
+                  sizes="100% 100%"
                 />
               </div>
             )}

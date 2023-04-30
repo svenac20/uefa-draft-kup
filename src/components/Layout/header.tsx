@@ -61,13 +61,13 @@ const Header = ({
                 />
 
                 { !showPrice  &&
-                  <button className="rounded bg-white px-2 py-1 font-bold text-slate-700" onClick={(e) => {setShowPrice(true); e.preventDefault()}}>
+                  <button className="rounded bg-white px-2 py-1 font-bold text-slate-700" onClick={(e) => {e.preventDefault();setShowPrice(true);}}>
                     Budget
                   </button>
                 }
                 {
                   showPrice && playerBudget[number] && 
-                   <span className={`font-bold`} onClick={(e) => {setShowPrice(false); e.preventDefault()}}>
+                   <span className={`font-bold`} onClick={(e) => {e.preventDefault();setShowPrice(false); }}>
                     {playerBudget[number]}M€
                    </span>
                 }
