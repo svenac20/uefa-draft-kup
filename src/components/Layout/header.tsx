@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import useGameSettingsStore from '../../store/game-settings-store'
-import icon from '../../public/images/soccer-player.png'
-import fortuneWheel from '../../public/images/fortune-wheel.png'
-import veto from '../../public/images/veto.png'
 import Image from 'next/image'
+import { useState } from 'react'
+import fortuneWheel from '../../public/images/fortune-wheel.png'
+import icon from '../../public/images/soccer-player.png'
+import veto from '../../public/images/veto.png'
+import useGameSettingsStore from '../../store/game-settings-store'
 
 const Header = () => {
   const setPlayerNames = useGameSettingsStore((state) => state.setPlayerNames)

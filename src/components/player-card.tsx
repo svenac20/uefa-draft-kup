@@ -19,7 +19,7 @@ export const PlayerCard = ({
   player,
   selectedPlayer,
 }: {
-  player: PlayersEntity 
+  player: PlayersEntity
   selectedPlayer: (
     player: PlayerProfile,
     marketValue: MarketValueDevelopmentEntity | undefined
@@ -33,7 +33,7 @@ export const PlayerCard = ({
   })
 
   const getPlayerValue = async (
-    id: number 
+    id: number
   ): Promise<{
     marketValue: MarketValueDevelopmentEntity | undefined
     playerProfile: PlayerProfile
@@ -41,8 +41,13 @@ export const PlayerCard = ({
     const marketValue = await getPlayerMarketValue(id)
     const playerProfile = await getPlayerProfile(id)
 
-    playerProfile.countryImage= `https://flagcdn.com/192x144/${CountryCodeMap.get(playerProfile.country)?.toLocaleLowerCase()}.png`
-    playerProfile.playerImage = playerProfile.playerImage.replace('medium', 'big')
+    playerProfile.countryImage = `https://flagcdn.com/192x144/${CountryCodeMap.get(
+      playerProfile.country
+    )?.toLocaleLowerCase()}.png`
+    playerProfile.playerImage = playerProfile.playerImage.replace(
+      'medium',
+      'big'
+    )
 
     return { marketValue, playerProfile }
   }
@@ -52,7 +57,7 @@ export const PlayerCard = ({
     e.stopPropagation()
   }
 
-  const  onModalConfirm = () => {
+  const onModalConfirm = () => {
     if (data) {
       selectedPlayer(data?.playerProfile, data?.marketValue)
     }
@@ -66,7 +71,7 @@ export const PlayerCard = ({
         onModalConfirm={onModalConfirm}
       />
       <div
-        className="relative flex h-full w-full cursor-pointer flex-col rounded-md border-2 border-green-800 max-w-xs"
+        className="relative flex h-full w-full max-w-xs cursor-pointer flex-col rounded-md border-2 border-green-800"
         onClick={() => setShowModal(true)}
       >
         <Image src={card} fill={true} alt="kartica" />
@@ -104,13 +109,15 @@ export const PlayerCard = ({
                 <SmallSpinner />
               </div>
             ) : (
-              <span className="font-bold ml-1 mt-1">{data?.playerProfile.age}</span>
+              <span className="ml-1 mt-1 font-bold">
+                {data?.playerProfile.age}
+              </span>
             )}
           </div>
         </div>
         <div className="absolute top-[49%] h-1/2 w-full">
           <div className="relative z-10 ml-8 mt-1 flex h-[36%] w-[73%] items-center justify-center truncate rounded-xl">
-            <span className="truncate font-bold ml-4">{player.playerName}</span>
+            <span className="ml-4 truncate font-bold">{player.playerName}</span>
           </div>
           <div className="w-player-price  relative ml-8 mt-2 flex h-[36%] w-[73%]  items-center justify-center rounded-xl font-bold">
             {isFetching ? (
@@ -120,7 +127,7 @@ export const PlayerCard = ({
                 {data?.marketValue?.marketValue}
                 {data?.marketValue?.marketValueNumeral.toLocaleUpperCase()}{' '}
                 {data?.marketValue?.marketValueCurrency}{' '}
-                {!data?.marketValue && data && "-€"}
+                {!data?.marketValue && data && '-€'}
               </span>
             )}
           </div>

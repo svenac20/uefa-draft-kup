@@ -57,7 +57,7 @@ const PlayerSearch = () => {
 
   const searchNewPlayer = () => {
     setEnabled(false)
-    refetch()  
+    refetch()
   }
 
   const handleSelectPlayer = (
@@ -77,7 +77,7 @@ const PlayerSearch = () => {
       marketValue,
       position: position as PlayerPosition,
     }
-    
+
     addPlayerToSquad(player)
     updateBudget(
       selectedPlayer,

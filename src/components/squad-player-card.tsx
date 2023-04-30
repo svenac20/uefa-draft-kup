@@ -49,7 +49,7 @@ export const SquadPlayercard = ({
               className="relative flex h-full w-60 cursor-pointer flex-col rounded-md border-2 border-green-800"
               onClick={(e) => setShowModal(true)}
             >
-              <Image src={card} fill={true} alt="kartica" sizes="100%"/>
+              <Image src={card} fill={true} alt="kartica" sizes="100%" />
               <div className="absolute -z-10 ml-1 h-1/2 w-player-image">
                 <Image
                   src={data.playerImage.replace('medium', 'big')}
@@ -70,12 +70,14 @@ export const SquadPlayercard = ({
                   </div>
                 </div>
                 <div className="relative ml-5 mt-1 flex h-[40%] w-[60%] items-center justify-center">
-                  <span className="font-bold mr-1">{data.age}</span>
+                  <span className="mr-1 font-bold">{data.age}</span>
                 </div>
               </div>
               <div className="absolute top-[49%] h-1/2 w-full">
                 <div className="relative z-10 ml-8 mt-1 flex h-[36%] w-[73%] items-center justify-center truncate rounded-xl">
-                  <span className="truncate font-bold ml-1">{data.playerName}</span>
+                  <span className="ml-1 truncate font-bold">
+                    {data.playerName}
+                  </span>
                 </div>
                 <div className="w-player-price  relative ml-8 mt-2 flex h-[36%] w-[73%]  items-center justify-center rounded-xl font-bold">
                   <span className="ml-4 mb-1">{data.marketValue}</span>
@@ -86,9 +88,9 @@ export const SquadPlayercard = ({
         </>
       ) : (
         <div className="flex cursor-pointer items-center justify-center">
-          <div className="w-60 h-full relative max-w-xs rounded-md border-2 border-green-800 border-opacity-20 opacity-70">
-            <Link href={`/player-search/${position}`} >
-              <Image src={card} fill={true} alt="kartica" sizes='100%' />
+          <div className="relative h-full w-60 max-w-xs rounded-md border-2 border-green-800 border-opacity-20 opacity-70">
+            <Link href={`/player-search/${position}`}>
+              <Image src={card} fill={true} alt="kartica" sizes="100%" />
             </Link>
           </div>
         </div>
