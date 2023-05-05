@@ -87,7 +87,7 @@ export const PlayerCard = ({
           <div className="flex h-[55%] w-full items-center justify-center">
             {!data ? (
               <button
-                className="mb-4 h-1/2 rounded bg-green-800 p-2 pb-4 font-bold"
+                className="mb-4 h-1/2 rounded bg-green-800 p-2 font-bold"
                 onClick={fetchPlayerPrice}
               >
                 Show info
