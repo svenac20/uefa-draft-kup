@@ -5,6 +5,7 @@ import icon from '../../public/images/soccer-player.png'
 import veto from '../../public/images/veto.png'
 import yellowCard from '../../public/images/yellow-card.png'
 import reroll from '../../public/images/dices.png'
+import u21 from '../../public/images/u21.png'
 import useGameSettingsStore from '../../store/game-settings-store'
 
 const Header = () => {
@@ -144,6 +145,20 @@ const Header = () => {
                     }`}
                     onClick={(e) => {
                       updatePerk(index, 'yellowCard')
+                      e.stopPropagation()
+                    }}
+                  />
+                  <Image
+                    src={u21}
+                    alt="u21"
+                    height={30}
+                    className={`${
+                      state.playerPerks[index]?.u21
+                        ? 'opacity-40'
+                        : 'opacity-100'
+                    }`}
+                    onClick={(e) => {
+                      updatePerk(index, 'u21')
                       e.stopPropagation()
                     }}
                   />
