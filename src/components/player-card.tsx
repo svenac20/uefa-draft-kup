@@ -9,7 +9,7 @@ import type {
   PlayersEntity,
   PlayerValueResponse,
 } from '../types/transfer-market.dto'
-import card from '../public/images/Kartica.png'
+import card from '../public/images/kartica-nova.png'
 import Image from 'next/image'
 import CountryCodeMap from '../types/country-codes'
 import SmallSpinner from './small-spinner'
@@ -41,7 +41,7 @@ export const PlayerCard = ({
     const marketValue = await getPlayerMarketValue(id)
     const playerProfile = await getPlayerProfile(id)
 
-    playerProfile.countryImage = `https://flagcdn.com/224x168/${CountryCodeMap.get(
+    playerProfile.countryImage = `https://flagcdn.com/w320/${CountryCodeMap.get(
       playerProfile.country
     )?.toLocaleLowerCase()}.png`
     playerProfile.playerImage = playerProfile.playerImage.replace(
@@ -71,7 +71,7 @@ export const PlayerCard = ({
         onModalConfirm={onModalConfirm}
       />
       <div
-        className="relative flex h-full w-full max-w-xs cursor-pointer flex-col rounded-md border-2 border-green-800"
+        className="relative flex h-full w-full max-w-[236px] cursor-pointer flex-col rounded-md border-2 border-green-800 max-h-[268px]"
         onClick={() => setShowModal(true)}
       >
         <Image src={card} fill={true} alt="kartica" />
@@ -83,17 +83,17 @@ export const PlayerCard = ({
             sizes="100% 100%"
           />
         </div>
-        <div className="z-1 absolute top-1 left-1/2 flex h-1/2 w-1/2 flex-col">
-          <div className="flex h-[55%] w-full items-center justify-center">
+        <div className="z-1 absolute top-1 left-[52%] flex h-[48%] w-[46%] flex-col ">
+          <div className="flex h-[49%] w-full items-center justify-center ">
             {!data ? (
               <button
-                className="mb-4 h-1/2 rounded bg-green-800 p-2 font-bold"
+                className="w-full h-full flex justify-center items-center rounded border-2 border-green-800 bg-transparent font-bold text-sm"
                 onClick={fetchPlayerPrice}
               >
-                Show info
+                <span>Show info</span>
               </button>
             ) : (
-              <div className="relative mb-2 h-[83%] w-[89%]">
+              <div className="relative w-full h-full">
                 <Image
                   src={data?.playerProfile.countryImage}
                   alt="player-nation"
@@ -103,29 +103,34 @@ export const PlayerCard = ({
               </div>
             )}
           </div>
-          <div className="relative ml-5 mt-1 flex h-[40%] w-[60%] items-center justify-center">
+          <div className="relative  flex h-[50%] items-center justify-center  ">
             {isFetching ? (
-              <div className="mb-2 ml-3">
+              <div className="mt-2 mr-[3px]">
                 <SmallSpinner />
               </div>
             ) : (
-              <span className="ml-1 mb-2 font-bold">
+              <span className="mt-[5px] mr-[10px] font-bold"> 
                 {data?.playerProfile.age}
               </span>
             )}
           </div>
         </div>
-        <div className="absolute top-[49%] h-1/2 w-full">
-          <div className="relative z-10 ml-8 mt-1 flex h-[36%] w-[73%] items-center justify-center truncate rounded-xl">
-            <span className="ml-4 truncate font-bold">{player.playerName}</span>
+        <div className="absolute top-[49%] flex h-1/2 w-full flex-col items-center gap-1"> 
+          <div className="relative z-10 ml-2 mt-2 flex h-[25%] w-[73%] items-center justify-center truncate "> 
+            <span className="ml-3 truncate font-bold">{player.playerName}</span>
           </div>
-          <div className="w-player-price relative ml-8 mt-2 flex h-[36%] w-[73%]  items-center justify-center rounded-xl font-bold">
+          <div className="relative z-10 flex h-[25%] w-[73%]  justify-center truncate  ml-2">
+            <span className="ml-3 truncate text-center font-bold">
+              {player.club}
+            </span>
+          </div>
+          <div className="w-player-price relative flex h-[22%] w-[73%] justify-center  font-bold  ml-2">
             {isFetching ? (
-              <div className="ml-8">
+              <div className="pb-4 mb-3">
                 <SmallSpinner />
               </div>
             ) : (
-              <span className="ml-6">
+              <span className="">
                 {data?.marketValue?.marketValue}
                 {data?.marketValue?.marketValueNumeral.toLocaleUpperCase()}{' '}
                 {data?.marketValue?.marketValueCurrency}{' '}

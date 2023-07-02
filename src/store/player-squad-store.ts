@@ -17,6 +17,7 @@ interface SquadPlayer {
   age: number
   countryImage: string
   marketValue: string
+  club: string 
 }
 
 const usePlayerSquadStore = create<PlayerSquad>()(
@@ -49,6 +50,7 @@ const usePlayerSquadStore = create<PlayerSquad>()(
                 marketValue.marketValue +
                 marketValue.marketValueNumeral.toLocaleUpperCase() + " " +
                 marketValue.marketValueCurrency.toLocaleUpperCase(),
+              club: playerProfile.club,
             })
 
             state.squad[updateEntity.index] = currentSquad

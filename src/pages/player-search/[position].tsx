@@ -15,6 +15,8 @@ import type {
   PlayerSearchReponse,
 } from '../../types/transfer-market.dto.js'
 import type { UpdateSquad } from '../../types/update-squad.interface'
+import background from '../../public/images/pozadina.png'
+import Image from 'next/image'
 
 const PlayerSearch = () => {
   const router = useRouter()
@@ -89,7 +91,7 @@ const PlayerSearch = () => {
   return (
     <>
       <Header></Header>
-      <div className="flex h-5/6 w-full flex-col p-16 px-24">
+      <div className="flex h-5/6 w-full flex-col p-16 px-24 relative">
         <div className="flex w-full flex-row px-8 pl-0">
           <div className="mr-4 flex w-2/4 flex-col">
             <label htmlFor="playerNameInput">Search player</label>

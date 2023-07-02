@@ -17,6 +17,7 @@ const Header = () => {
   const playerBudget = useGameSettingsStore((state) => state.playersBudget)
   const [showPrice, setShowPrice] = useState(false)
   const updatePerk = useGameSettingsStore((state) => state.updatePerk)
+    
 
   return (
     <>

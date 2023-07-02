@@ -1,8 +1,10 @@
 import type { NextPage } from 'next'
 import Header from '../components/Layout/header'
 import { SquadPlayercard } from '../components/squad-player-card'
+import background from '../public/images/pozadina.png'
 import useGameSettingsStore from '../store/game-settings-store'
 import { useEffect } from 'react'
+import Image from 'next/image'
 import usePlayerSquadStore from '../store/player-squad-store'
 
 const PlayerSquad: NextPage = () => {
@@ -11,7 +13,8 @@ const PlayerSquad: NextPage = () => {
   return (
     <div className="flex h-screen flex-col">
       <Header></Header>
-      <div className="flex flex-grow flex-col gap-10 p-4">
+      <div className="flex flex-grow flex-col gap-10 p-4 relative">
+        <Image src={background} alt={"background"} fill={true} className='-z-10'></Image>
         <div className="grid h-1/4 grid-cols-3 grid-rows-1 justify-center ">
           <SquadPlayercard position="LW" index={index} />
           <SquadPlayercard position="ST" index={index} />

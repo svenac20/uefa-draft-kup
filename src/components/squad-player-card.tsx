@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import card from '../public/images/Kartica.png'
+import card from '../public/images/kartica-nova.png'
 import usePlayerSquadStore from '../store/player-squad-store'
 import type { PlayerPosition } from '../types/player-positions'
 import { PlayerSelectModal } from './player-select-modal'
@@ -38,7 +38,7 @@ export const SquadPlayercard = ({
     removePlayerFromSquad(index, position)
     updateBudgetOnPlayerRemoval(
       index,
-      Number(player?.marketValue.replace(/[^\d,]/g, '').replace(",", "."))
+      Number(player?.marketValue.replace(/[^\d,]/g, '').replace(',', '.'))
     )
     refetch()
   }
@@ -47,7 +47,7 @@ export const SquadPlayercard = ({
     <>
       {data ? (
         <>
-          <div className="flex cursor-pointer items-center justify-center">
+          <div className="flex cursor-pointer items-center justify-center max-h-[227px]">
             <PlayerSelectModal
               text="Do you want to remove the selected player"
               show={showModal}
@@ -69,7 +69,7 @@ export const SquadPlayercard = ({
               </div>
               <div className="z-1 absolute top-1 left-1/2 flex h-1/2 w-1/2 flex-col">
                 <div className="flex h-1/2 w-full items-center justify-center">
-                  <div className="relative mb-1 h-[87%] w-[89%]">
+                  <div className="relative mb-1 h-[87%] w-[92%]">
                     <Image
                       src={data.countryImage}
                       alt="player-nation"
@@ -82,14 +82,19 @@ export const SquadPlayercard = ({
                   <span className="mr-1 font-bold">{data.age}</span>
                 </div>
               </div>
-              <div className="absolute top-[49%] h-1/2 w-full">
-                <div className="relative z-10 ml-8 mt-1 flex h-[36%] w-[73%] items-center justify-center truncate rounded-xl">
-                  <span className="ml-1 truncate font-bold">
+              <div className="absolute top-[50%] flex h-1/2 w-full flex-col items-center text-s">
+                <div className="relative z-10 ml-4 mt-[5px] flex h-[23%] w-[73%] justify-center truncate rounded-xl ">
+                  <span className=" truncate font-bold">
                     {data.playerName}
                   </span>
                 </div>
-                <div className="w-player-price  relative ml-8 mt-2 flex h-[36%] w-[73%]  items-center justify-center rounded-xl font-bold">
-                  <span className="ml-4 mb-1">{data.marketValue}</span>
+                <div className="relative z-10 ml-4 mt-[4px] flex h-[23%] w-[73%] justify-center truncate rounded-xl ">
+                  <span className=" truncate font-bold">
+                    {data.club}
+                  </span>
+                </div>
+                <div className="w-player-price  relative ml-2 mt-[4px] flex h-[23%] w-[73%] flex items-center justify-center rounded-xl font-bold ">
+                  <span className="ml-2">{data.marketValue}</span>
                 </div>
               </div>
             </div>
