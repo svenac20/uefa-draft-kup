@@ -15,7 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <div className="h-screen w-screen">
+      <div className="h-screen w-screen" >
         <Component {...pageProps} />
       </div>
     </SessionProvider>
