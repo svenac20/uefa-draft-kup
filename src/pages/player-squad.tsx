@@ -15,7 +15,7 @@ const PlayerSquad: NextPage = () => {
     <div className="flex h-screen flex-col">
       <Header></Header>
       <div className="flex flex-grow flex-col gap-10 p-4 relative">
-        {/* <Image src={background} alt={"background"} fill={true} className='-z-10'></Image> */}
+        <Image src={background} alt={"background"} fill={true} className='-z-10 opacity-30'></Image>
         <div className="grid h-1/4 grid-cols-3 grid-rows-1 justify-center ">
           <SquadPlayercard position="LW" index={index} />
           <SquadPlayercard position="ST" index={index} />
