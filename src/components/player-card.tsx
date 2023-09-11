@@ -11,7 +11,6 @@ import type {
 } from '../types/transfer-market.dto'
 import card from '../public/images/kartica-nova.png'
 import Image from 'next/image'
-import CountryCodeMap from '../types/country-codes'
 import SmallSpinner from './small-spinner'
 import { PlayerSelectModal } from './player-select-modal'
 import { trpc } from '../utils/trpc'
