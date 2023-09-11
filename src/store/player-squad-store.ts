@@ -18,10 +18,10 @@ const usePlayerSquadStore = create<PlayerSquad>()(
           }),
         addPlayerToSquad: (updateEntity) =>
           set((state) => {
-            const { index, playerProfile, marketValue, position } = updateEntity
+            const { index, playerProfile, marketValue } = updateEntity
             const playerSquad = [...state.squad]
 
-            let currentSquad =
+            const currentSquad =
               (playerSquad[index] as Map<PlayerPosition, SquadPlayer>) ||
               new Map<PlayerPosition, SquadPlayer>()
 

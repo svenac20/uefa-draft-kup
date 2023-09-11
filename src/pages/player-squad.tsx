@@ -3,9 +3,7 @@ import Header from '../components/Layout/header'
 import { SquadPlayercard } from '../components/squad-player-card'
 import background from '../public/images/pozadina.png'
 import useGameSettingsStore from '../store/game-settings-store'
-import { useEffect } from 'react'
 import Image from 'next/image'
-import usePlayerSquadStore from '../store/player-squad-store'
 import { useStoreHook } from '../store/useStoreHook'
 
 const PlayerSquad: NextPage = () => {
