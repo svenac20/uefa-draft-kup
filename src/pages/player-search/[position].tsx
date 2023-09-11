@@ -80,7 +80,7 @@ const PlayerSearch = () => {
           </div>
           <div className="flex flex-col-reverse">
             <button
-              onClick={(e) => searchNewPlayer()}
+              onClick={() => searchNewPlayer()}
               className="h-1/2 rounded bg-white p-2 text-black"
             >
               Search
