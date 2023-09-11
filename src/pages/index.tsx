@@ -19,7 +19,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="align-center flex h-full w-full justify-center p-4">
-      <div className="flex flex-col justify-center gap-5">
+      <div className="flex  flex-col justify-center gap-5">
         <div>
           <label htmlFor="players" className="block font-bold">
             Enter number of players:

@@ -6,15 +6,16 @@ import useGameSettingsStore from '../store/game-settings-store'
 import { useEffect } from 'react'
 import Image from 'next/image'
 import usePlayerSquadStore from '../store/player-squad-store'
+import { useStoreHook } from '../store/useStoreHook'
 
 const PlayerSquad: NextPage = () => {
-  const index = useGameSettingsStore((state) => state.selectedPlayer)
+  const index = useStoreHook(useGameSettingsStore, (state) => state.selectedPlayer)
 
   return (
     <div className="flex h-screen flex-col">
       <Header></Header>
       <div className="flex flex-grow flex-col gap-10 p-4 relative">
-        <Image src={background} alt={"background"} fill={true} className='-z-10'></Image>
+        {/* <Image src={background} alt={"background"} fill={true} className='-z-10'></Image> */}
         <div className="grid h-1/4 grid-cols-3 grid-rows-1 justify-center ">
           <SquadPlayercard position="LW" index={index} />
           <SquadPlayercard position="ST" index={index} />
@@ -34,7 +35,7 @@ const PlayerSquad: NextPage = () => {
         <div className="grid h-1/4 grid-cols-1 grid-rows-1 justify-center">
           <SquadPlayercard position="GK" index={index} />
         </div>
-      </div>
+      </div> 
     </div>
   )
 }

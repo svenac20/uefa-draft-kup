@@ -6,8 +6,9 @@
   body {
     @apply bg-gray-800 text-white h-screen
   }
+}
 
-  body > div {
-    @apply h-full
-  }
+@font-face {
+  font-family: fifa-font;
+  src: url("../public/fonts/643-font.otf") format("opentype");
 }

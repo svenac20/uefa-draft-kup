@@ -1,4 +1,5 @@
-const CountryCodeMap: Map<string, string> = new Map<string, string>([
+export const retiredClubName = "Retired"
+export const CountryCodeMap: Map<string, string> = new Map<string, string>([
   ['Afghanistan', 'AF'],
   ['Åland Islands', 'AX'],
   ['Albania', 'AL'],
@@ -245,5 +246,3 @@ const CountryCodeMap: Map<string, string> = new Map<string, string>([
   ['Zambia', 'ZM'],
   ['Zimbabwe', 'ZW'],
 ])
-
-export default CountryCodeMap

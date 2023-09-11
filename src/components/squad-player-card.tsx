@@ -3,10 +3,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import card from '../public/images/kartica-nova.png'
+import cardIcon from '../public/images/ikona.png'
 import usePlayerSquadStore from '../store/player-squad-store'
 import type { PlayerPosition } from '../types/player-positions'
 import { PlayerSelectModal } from './player-select-modal'
 import useGameSettingsStore from '../store/game-settings-store'
+import { retiredClubName } from '../types/country-codes'
 
 export const SquadPlayercard = ({
   position,
@@ -22,6 +24,7 @@ export const SquadPlayercard = ({
   const updateBudgetOnPlayerRemoval = useGameSettingsStore(
     (state) => state.updateBudgetOnPlayerRemoval
   )
+  const updatePerk = useGameSettingsStore((state) => state.updatePerk)
   const [showModal, setShowModal] = useState(false)
 
   const { data, refetch } = useQuery({
@@ -33,9 +36,17 @@ export const SquadPlayercard = ({
     return squad[index]?.get(position) ?? null
   }
 
-  const onModalConfirm = () => {
+  const icon = data?.club == retiredClubName
+
+  const onRemovePlayer = () => {
     const player = getPlayer(index)
     removePlayerFromSquad(index, position)
+    if (player?.age && player.age <= 21) {
+      updatePerk(index, "u21")
+    }
+    if (player?.club == retiredClubName) {
+      updatePerk(index, "icon")
+    }
     updateBudgetOnPlayerRemoval(
       index,
       Number(player?.marketValue.replace(/[^\d,]/g, '').replace(',', '.'))
@@ -47,18 +58,18 @@ export const SquadPlayercard = ({
     <>
       {data ? (
         <>
-          <div className="flex cursor-pointer items-center justify-center max-h-[227px]">
+          <div className={`flex max-h-[227px] cursor-pointer items-center justify-center font-fifa text-lg ${icon ? "text-black" : ""}`}>
             <PlayerSelectModal
               text="Do you want to remove the selected player"
               show={showModal}
               showModal={setShowModal}
-              onModalConfirm={onModalConfirm}
+              onModalConfirm={onRemovePlayer}
             />
             <div
-              className="relative flex h-full w-60 cursor-pointer flex-col rounded-md border-2 border-green-800"
+              className={`relative flex h-full w-60 cursor-pointer flex-col rounded-md border-2 ${icon ? "border-white" :"border-green-800" }`}
               onClick={(e) => setShowModal(true)}
             >
-              <Image src={card} fill={true} alt="kartica" sizes="100%" />
+              {data.club == retiredClubName ? <Image src={cardIcon} fill={true} alt="kartica-icon" sizes="100%" /> : <Image src={card} fill={true} alt="kartica" sizes="100%" /> }
               <div className="absolute -z-10 ml-1 h-1/2 w-player-image">
                 <Image
                   src={data.playerImage.replace('medium', 'big')}
@@ -79,21 +90,17 @@ export const SquadPlayercard = ({
                   </div>
                 </div>
                 <div className="relative ml-5 mt-1 flex h-[40%] w-[60%] items-center justify-center">
-                  <span className="mr-1 font-bold">{data.age}</span>
+                  <span className={`mr-1 font-bold ${icon ? "text-" : ""}`}>{data.age}</span>
                 </div>
               </div>
-              <div className="absolute top-[50%] flex h-1/2 w-full flex-col items-center text-s">
+              <div className="text-s absolute top-[50%] flex h-1/2 w-full flex-col items-center">
                 <div className="relative z-10 ml-4 mt-[5px] flex h-[23%] w-[73%] justify-center truncate rounded-xl ">
-                  <span className=" truncate font-bold">
-                    {data.playerName}
-                  </span>
+                  <span className=" truncate font-bold">{data.playerName}</span>
                 </div>
-                <div className="relative z-10 ml-4 mt-[4px] flex h-[23%] w-[73%] justify-center truncate rounded-xl ">
-                  <span className=" truncate font-bold">
-                    {data.club}
-                  </span>
+                <div className="relative z-10 ml-4 mt-[2px] flex h-[23%] w-[73%] justify-center truncate rounded-xl ">
+                  <span className=" truncate font-bold">{data.club}</span>
                 </div>
-                <div className="w-player-price  relative ml-2 mt-[4px] flex h-[23%] w-[73%] flex items-center justify-center rounded-xl font-bold ">
+                <div className="w-player-price  relative ml-2 mt-[4px] flex flex h-[23%] w-[73%] items-center justify-center rounded-xl font-bold ">
                   <span className="ml-2">{data.marketValue}</span>
                 </div>
               </div>

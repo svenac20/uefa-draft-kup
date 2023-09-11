@@ -1,3 +1,4 @@
+import { log } from 'console'
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 
@@ -50,28 +51,34 @@ const useGameSettingsStore = create<GameSettingsState>()(
         selectedPlayer: 0,
         playerNames: [],
         playersBudget: [],
-        playerPerks: [] as Perks[],
-        setBudgetAndPlayers: (budget, numOfPlayers) =>
-          set((state) => {
-            const perks = Array<Perks>(numOfPlayers)
-            for (let i = 0; i <numOfPlayers; i++) {
-              perks[i] = {icon: false, veto: false, wheel: false, yellowCard: true, reroll: false, u21: true}
-            }
-            
-            return {
-              numberOfPlayers: numOfPlayers,
-              playerNames: Array<string>(numOfPlayers).fill(''),
-              playersBudget: Array<number>(numOfPlayers).fill(budget),
-              playerPerks: perks,
-              selectedPlayer: 0,
-            }
-          }),
+        playerPerks: [{}] as Perks[],
+        setBudgetAndPlayers: (budget, numOfPlayers) => {
+          const playerPerks: Array<Perks> = []
+          for (let i = 0; i < numOfPlayers; i++) {
+            playerPerks.push({
+              icon: true,
+              veto: false,
+              wheel: false,
+              yellowCard: true,
+              reroll: false,
+              u21: true,
+            })
+          }
+
+          set({
+            numberOfPlayers: numOfPlayers,
+            playerNames: Array<string>(numOfPlayers).fill(''),
+            playersBudget: Array<number>(numOfPlayers).fill(budget),
+            playerPerks,
+            selectedPlayer: 0,
+          })
+        },
         setPlayerNames: (name, index) =>
           set((state) => ({
-            playerNames: setPlayerName(state.playerNames, index, name),
+            playerNames: setPlayerName([...state.playerNames], index, name),
           })),
-        setSelectedPlayer(index) {
-          set(() => ({ selectedPlayer: index }))
+        setSelectedPlayer: (index) => {
+          set({ selectedPlayer: index })
         },
         updateBudget(index, playerValue) {
           set((state) => ({
@@ -85,22 +92,23 @@ const useGameSettingsStore = create<GameSettingsState>()(
         updatePerk(index, perkKey) {
           set((state) => {
             const key = perkKey as keyof Perks
-            const perkForPlayer = state.playerPerks[index]
-            if (!perkForPlayer) {
-              return state
+            const playerPerks = [...state.playerPerks]
+            const perkForPlayer = playerPerks[index]
+
+            if (perkForPlayer) {
+              perkForPlayer[key] = !perkForPlayer[key]
+              playerPerks[index] = perkForPlayer
+              return { playerPerks: playerPerks }
             }
-            
-            perkForPlayer[key] = !perkForPlayer[key]
-            state.playerPerks[index] = perkForPlayer
-            return { playerPerks: state.playerPerks}
+            return state
           })
         },
         updateBudgetOnPlayerRemoval(index, playerValue) {
-           set((state) => {
+          set((state) => {
             const budget = state.playersBudget
             budget[index] += playerValue
-            return {playersBudget: budget}
-           }) 
+            return { playersBudget: budget }
+          })
         },
       }),
       {

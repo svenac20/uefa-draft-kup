@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import fortuneWheel from '../../public/images/fortune-wheel.png'
 import icon from '../../public/images/soccer-player.png'
 import veto from '../../public/images/veto.png'
@@ -7,23 +7,25 @@ import yellowCard from '../../public/images/yellow-card.png'
 import reroll from '../../public/images/dices.png'
 import u21 from '../../public/images/u21.png'
 import useGameSettingsStore from '../../store/game-settings-store'
+import { useStoreHook } from '../../store/useStoreHook'
+import { env } from '../../env/server.mjs'
 
 const Header = () => {
-  const setPlayerNames = useGameSettingsStore((state) => state.setPlayerNames)
-  const selectedPlayer = useGameSettingsStore((state) => state.selectedPlayer)
-  const setSelectedPlayer = useGameSettingsStore(
-    (state) => state.setSelectedPlayer
-  )
-  const playerBudget = useGameSettingsStore((state) => state.playersBudget)
+  const setPlayerNames = useGameSettingsStore(state => state.setPlayerNames)
+  const setSelectedPlayer = useGameSettingsStore(state => state.setSelectedPlayer)
+  const updatePerk =useGameSettingsStore(state => state.updatePerk)
+
+  const selectedPlayer = useStoreHook(useGameSettingsStore, (state) => state.selectedPlayer)
+  const playerBudget = useStoreHook(useGameSettingsStore, (state) => state.playersBudget)
+  const playerNames = useStoreHook(useGameSettingsStore, (state) => state.playerNames)
+  const playerPerks = useStoreHook(useGameSettingsStore, (state) => state.playerPerks)
   const [showPrice, setShowPrice] = useState(false)
-  const updatePerk = useGameSettingsStore((state) => state.updatePerk)
-    
 
   return (
     <>
+      { !playerNames ? <div>Nothing</div> :
       <div className={`flex h-24 items-center justify-around border-b-4`}>
-        {useGameSettingsStore((state) =>
-          state.playerNames.map((item, index) => (
+          {playerNames.map((item, index) => (
             <div
               key={index}
               className={`h-full pt-2 cursor-pointer  ${
@@ -84,12 +86,12 @@ const Header = () => {
                     alt="old-man-icon"
                     height={30}
                     className={`${
-                      state.playerPerks[index]?.icon
+                      playerPerks[index]?.icon
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
                     onClick={(e) => {
-                      updatePerk(index, 'icon')
+                      // updatePerk(index, 'icon')
                       e.stopPropagation()
                     }}
                   />
@@ -98,12 +100,15 @@ const Header = () => {
                     alt="old-man-icon"
                     height={30}
                     className={`${
-                      state.playerPerks[index]?.wheel
+                      playerPerks[index]?.wheel
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
                     onClick={(e) => {
                       updatePerk(index, 'wheel')
+                      if (e.ctrlKey) {
+                        window.open(env.NEXT_PUBLIC_WHEEL_LINK)
+                      }
                       e.stopPropagation()
                     }}
                   />
@@ -112,7 +117,7 @@ const Header = () => {
                     alt="old-man-icon"
                     height={30}
                     className={`${
-                      state.playerPerks[index]?.veto
+                      playerPerks[index]?.veto
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
@@ -126,7 +131,7 @@ const Header = () => {
                     alt="yellow-card"
                     height={30}
                     className={`${
-                      state.playerPerks[index]?.reroll
+                      playerPerks[index]?.reroll
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
@@ -140,7 +145,7 @@ const Header = () => {
                     alt="yellow-card"
                     height={30}
                     className={`${
-                      state.playerPerks[index]?.yellowCard
+                      playerPerks[index]?.yellowCard
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
@@ -154,21 +159,20 @@ const Header = () => {
                     alt="u21"
                     height={30}
                     className={`${
-                      state.playerPerks[index]?.u21
+                      playerPerks[index]?.u21
                         ? 'opacity-40'
                         : 'opacity-100'
                     }`}
                     onClick={(e) => {
-                      updatePerk(index, 'u21')
+                      // updatePerk(index, 'u21')
                       e.stopPropagation()
                     }}
                   />
                 </div>
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+      </div> }
     </>
   )
 }

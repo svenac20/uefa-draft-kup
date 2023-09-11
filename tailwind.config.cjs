@@ -5,7 +5,10 @@ module.exports = {
     extend: {
       width: {
         'player-image': '49%',
-      }
+      },
+      fontFamily: {
+        fifa: "fifa-font"
+      },
     },
   },
   plugins: [],

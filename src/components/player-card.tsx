@@ -14,6 +14,7 @@ import Image from 'next/image'
 import CountryCodeMap from '../types/country-codes'
 import SmallSpinner from './small-spinner'
 import { PlayerSelectModal } from './player-select-modal'
+import { trpc } from '../utils/trpc'
 
 export const PlayerCard = ({
   player,
@@ -22,35 +23,16 @@ export const PlayerCard = ({
   player: PlayersEntity
   selectedPlayer: (
     player: PlayerProfile,
-    marketValue: MarketValueDevelopmentEntity | undefined
+    marketValue: MarketValueDevelopmentEntity
   ) => void
 }) => {
   const [showModal, setShowModal] = useState(false)
-  const { data, isFetching, refetch } = useQuery({
-    queryKey: ['playerPrice', player.id],
-    queryFn: () => getPlayerValue(player.id),
-    enabled: false,
-  })
-
-  const getPlayerValue = async (
-    id: number
-  ): Promise<{
-    marketValue: MarketValueDevelopmentEntity | undefined
-    playerProfile: PlayerProfile
-  }> => {
-    const marketValue = await getPlayerMarketValue(id)
-    const playerProfile = await getPlayerProfile(id)
-
-    playerProfile.countryImage = `https://flagcdn.com/w320/${CountryCodeMap.get(
-      playerProfile.country
-    )?.toLocaleLowerCase()}.png`
-    playerProfile.playerImage = playerProfile.playerImage.replace(
-      'medium',
-      'big'
-    )
-
-    return { marketValue, playerProfile }
-  }
+  const { data, isFetching, refetch } = trpc.playerSearch.playerValue.useQuery(
+    { id: player.id.toString() },
+    {
+      enabled: false,
+    }
+  )
 
   const fetchPlayerPrice = (e: React.MouseEvent) => {
     refetch()
@@ -71,7 +53,7 @@ export const PlayerCard = ({
         onModalConfirm={onModalConfirm}
       />
       <div
-        className="relative flex h-full w-full max-w-[236px] cursor-pointer flex-col rounded-md border-2 border-green-800 max-h-[268px]"
+        className="relative flex h-full max-h-[370px]  w-full cursor-pointer flex-col rounded-md border-2 border-green-800 font-fifa text-xl"
         onClick={() => setShowModal(true)}
       >
         <Image src={card} fill={true} alt="kartica" />
@@ -87,13 +69,13 @@ export const PlayerCard = ({
           <div className="flex h-[49%] w-full items-center justify-center ">
             {!data ? (
               <button
-                className="w-full h-full flex justify-center items-center rounded border-2 border-green-800 bg-transparent font-bold text-sm"
+                className="flex h-full w-full items-center justify-center rounded border-2 border-green-800 bg-transparent  font-bold"
                 onClick={fetchPlayerPrice}
               >
                 <span>Show info</span>
               </button>
             ) : (
-              <div className="relative w-full h-full">
+              <div className="relative h-full w-full">
                 <Image
                   src={data?.playerProfile.countryImage}
                   alt="player-nation"
@@ -103,30 +85,30 @@ export const PlayerCard = ({
               </div>
             )}
           </div>
-          <div className="relative  flex h-[50%] items-center justify-center  ">
+          <div className="relative flex h-[50%] items-center justify-center  ">
             {isFetching ? (
-              <div className="mt-2 mr-[3px]">
+              <div className="mt-2 mr-[5px]">
                 <SmallSpinner />
               </div>
             ) : (
-              <span className="mt-[5px] mr-[10px] font-bold"> 
+              <span className="mt-[9px] mr-[15px] font-bold">
                 {data?.playerProfile.age}
               </span>
             )}
           </div>
         </div>
-        <div className="absolute top-[49%] flex h-1/2 w-full flex-col items-center gap-1"> 
-          <div className="relative z-10 ml-2 mt-2 flex h-[25%] w-[73%] items-center justify-center truncate "> 
+        <div className="absolute top-[49%] flex h-1/2 w-full flex-col items-center gap-1">
+          <div className="relative z-10 mt-2 flex h-[25%] w-[73%] items-center justify-center truncate ">
             <span className="ml-3 truncate font-bold">{player.playerName}</span>
           </div>
-          <div className="relative z-10 flex h-[25%] w-[73%]  justify-center truncate  ml-2">
-            <span className="ml-3 truncate text-center font-bold">
+          <div className="relative z-10 ml-2 flex h-[25%]  w-[73%] justify-center  truncate">
+            <span className="ml-3 mt-2 truncate text-center font-bold">
               {player.club}
             </span>
           </div>
-          <div className="w-player-price relative flex h-[22%] w-[73%] justify-center  font-bold  ml-2">
+          <div className="w-player-price relative ml-2 flex h-[22%] w-[73%]  justify-center  font-bold mt-2">
             {isFetching ? (
-              <div className="pb-4 mb-3">
+              <div className="mb-3 pb-4 ml-4">
                 <SmallSpinner />
               </div>
             ) : (
@@ -142,38 +124,4 @@ export const PlayerCard = ({
       </div>
     </>
   )
-}
-
-const getPlayerMarketValue = async (
-  id: number
-): Promise<MarketValueDevelopmentEntity | undefined> => {
-  const options = {
-    method: 'GET',
-    url: 'https://transfermarket.p.rapidapi.com/players/get-market-value',
-    params: { id: id, domain: 'com' },
-    headers: {
-      'X-RapidAPI-Key': env.NEXT_PUBLIC_TRANSFERMARKET_KEY,
-      'X-RapidAPI-Host': env.NEXT_PUBLIC_TRANSFERMARKET_HOST,
-    },
-  }
-
-  const data: PlayerValueResponse = (await axios.request(options)).data
-
-  return data.marketValueDevelopment?.[0] || undefined
-}
-
-const getPlayerProfile = async (id: number): Promise<PlayerProfile> => {
-  const options = {
-    method: 'GET',
-    url: 'https://transfermarket.p.rapidapi.com/players/get-profile',
-    params: { id: id, domain: 'com' },
-    headers: {
-      'X-RapidAPI-Key': env.NEXT_PUBLIC_TRANSFERMARKET_KEY,
-      'X-RapidAPI-Host': env.NEXT_PUBLIC_TRANSFERMARKET_HOST,
-    },
-  }
-
-  const data: PlayerProfileReponse = (await axios.request(options)).data
-
-  return data.playerProfile
 }

@@ -17,62 +17,34 @@ import type {
 import type { UpdateSquad } from '../../types/update-squad.interface'
 import background from '../../public/images/pozadina.png'
 import Image from 'next/image'
+import { trpc } from '../../utils/trpc'
+import { useStoreHook } from '../../store/useStoreHook'
+import { retiredClubName } from '../../types/country-codes'
 
 const PlayerSearch = () => {
   const router = useRouter()
   const { position } = router.query
 
   const [playerName, setPlayerName] = useState('')
-  const [enabled, setEnabled] = useState(false)
 
-  const addPlayerToSquad = usePlayerSquadStore(
-    (state) => state.addPlayerToSquad
-  )
+  const addPlayerToSquad = usePlayerSquadStore((state) => state.addPlayerToSquad)
   const selectedPlayer = useGameSettingsStore((state) => state.selectedPlayer)
   const updateBudget = useGameSettingsStore((state) => state.updateBudget)
+  const updatePerks = useGameSettingsStore((state) => state.updatePerk)
 
-  const getPlayers = async (name: string) => {
-    const options = {
-      method: 'GET',
-      url: 'https://transfermarket.p.rapidapi.com/search',
-      params: {
-        query: name,
-        domain: 'com',
-      },
-      headers: {
-        'X-RapidAPI-Key': env.NEXT_PUBLIC_TRANSFERMARKET_KEY,
-        'X-RapidAPI-Host': env.NEXT_PUBLIC_TRANSFERMARKET_HOST,
-      },
-    }
-
-    const data: PlayerSearchReponse = (await axios.request(options)).data
-    return data.players
-  }
-
-  // Using the hook
-  const { data, isFetching, refetch } = useQuery({
-    queryKey: ['players'],
-    queryFn: () => getPlayers(playerName),
-    enabled: enabled,
-    refetchOnWindowFocus: false,
-  })
+  const { data, isFetching, refetch } = trpc.playerSearch.searchPlayer.useQuery(
+    { name: playerName },
+    { enabled: false, refetchOnWindowFocus: false }
+  )
 
   const searchNewPlayer = () => {
-    setEnabled(false)
     refetch()
   }
 
   const handleSelectPlayer = (
     playerProfile: PlayerProfile,
-    marketValue: MarketValueDevelopmentEntity | undefined
+    marketValue: MarketValueDevelopmentEntity
   ) => {
-    if (!marketValue) {
-      marketValue = {} as MarketValueDevelopmentEntity
-      marketValue.marketValueNumeral = 'M'
-      marketValue.marketValue = '0'
-      marketValue.marketValueCurrency = '€'
-    }
-
     const player: UpdateSquad = {
       index: selectedPlayer,
       playerProfile,
@@ -81,6 +53,12 @@ const PlayerSearch = () => {
     }
 
     addPlayerToSquad(player)
+    if (Number(player.marketValue.age) <= 21) {
+      updatePerks(selectedPlayer, "u21");
+    } 
+    if (player.playerProfile.club == retiredClubName) {
+      updatePerks(selectedPlayer, "icon")
+    }
     updateBudget(
       selectedPlayer,
       Number(marketValue.marketValue.replace(',', '.'))
@@ -91,7 +69,7 @@ const PlayerSearch = () => {
   return (
     <>
       <Header></Header>
-      <div className="flex h-5/6 w-full flex-col p-16 px-24 relative">
+      <div className="relative flex h-5/6 w-full flex-col p-16 px-24">
         <div className="flex w-full flex-row px-8 pl-0">
           <div className="mr-4 flex w-2/4 flex-col">
             <label htmlFor="playerNameInput">Search player</label>
@@ -124,34 +102,25 @@ const PlayerSearch = () => {
           </div>
         </div>
 
-        <div className="flex-column flex w-full flex-grow p-8 pl-2">
-          <div
-            className={`mt-4  ${
-              !isFetching && data
-                ? 'grid flex-grow grid-cols-5 grid-rows-2 gap-20'
-                : 'w-full'
-            }`}
-          >
-            {!isFetching &&
-              data &&
-              data.map((player) => {
-                player.playerImage = player.playerImage.replace('medium', 'big')
-                return (
-                  <PlayerCard
-                    player={player}
-                    selectedPlayer={handleSelectPlayer}
-                    key={player.id}
-                  ></PlayerCard>
-                )
-              })}
-            {isFetching && (
-              <div className="align-center mt-4 h-5/6 justify-center">
-                <div className=" flex h-full items-center justify-center">
-                  <div className="h-32 w-32 animate-spin rounded-full border-b-2 "></div>
-                </div>
+        <div className="items-top grid h-full w-full grid-cols-5 flex-row justify-around gap-10 px-8 pl-2 pt-20">
+          {!isFetching &&
+            data &&
+            data.map((player) => {
+              return (
+                <PlayerCard
+                  player={player}
+                  selectedPlayer={handleSelectPlayer}
+                  key={player.id}
+                ></PlayerCard>
+              )
+            })}
+          {isFetching && (
+            <div className="align-center col-span-5 mt-4 h-5/6 justify-center">
+              <div className=" flex h-full items-center justify-center">
+                <div className="h-32 w-32 animate-spin rounded-full border-b-2 "></div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </>
