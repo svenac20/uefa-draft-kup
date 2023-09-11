@@ -67,7 +67,7 @@ export const SquadPlayercard = ({
             />
             <div
               className={`relative flex h-full w-60 cursor-pointer flex-col rounded-md border-2 ${icon ? "border-white" :"border-green-800" }`}
-              onClick={(e) => setShowModal(true)}
+              onClick={() => setShowModal(true)}
             >
               {data.club == retiredClubName ? <Image src={cardIcon} fill={true} alt="kartica-icon" sizes="100%" /> : <Image src={card} fill={true} alt="kartica" sizes="100%" /> }
               <div className="absolute -z-10 ml-1 h-1/2 w-player-image">

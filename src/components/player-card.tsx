@@ -1,19 +1,14 @@
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import Image from 'next/image'
 import React, { useState } from 'react'
-import { env } from '../env/client.mjs'
+import card from '../public/images/kartica-nova.png'
 import type {
   MarketValueDevelopmentEntity,
   PlayerProfile,
-  PlayerProfileReponse,
   PlayersEntity,
-  PlayerValueResponse,
 } from '../types/transfer-market.dto'
-import card from '../public/images/kartica-nova.png'
-import Image from 'next/image'
-import SmallSpinner from './small-spinner'
-import { PlayerSelectModal } from './player-select-modal'
 import { trpc } from '../utils/trpc'
+import { PlayerSelectModal } from './player-select-modal'
+import SmallSpinner from './small-spinner'
 
 export const PlayerCard = ({
   player,
@@ -105,9 +100,9 @@ export const PlayerCard = ({
               {player.club}
             </span>
           </div>
-          <div className="w-player-price relative ml-2 flex h-[22%] w-[73%]  justify-center  font-bold mt-2">
+          <div className="w-player-price relative ml-2 mt-2 flex h-[22%]  w-[73%]  justify-center font-bold">
             {isFetching ? (
-              <div className="mb-3 pb-4 ml-4">
+              <div className="mb-3 ml-4 pb-4">
                 <SmallSpinner />
               </div>
             ) : (

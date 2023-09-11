@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { use, useState } from 'react'
+import { useState } from 'react'
 import fortuneWheel from '../../public/images/fortune-wheel.png'
 import icon from '../../public/images/soccer-player.png'
 import veto from '../../public/images/veto.png'
@@ -31,7 +31,7 @@ const Header = () => {
               className={`h-full pt-2 cursor-pointer  ${
                 selectedPlayer == index ? 'border-2 border-white' : 'border-2 border-opacity-10 border-white'
               }`}
-              onClick={(e) => {
+              onClick={() => {
                 setSelectedPlayer(index)
               }}
             >

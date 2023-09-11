@@ -1,25 +1,18 @@
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import Header from '../../components/Layout/header'
 import { PlayerCard } from '../../components/player-card'
-import { env } from '../../env/client.mjs'
 import useGameSettingsStore from '../../store/game-settings-store'
 import usePlayerSquadStore from '../../store/player-squad-store'
+import { retiredClubName } from '../../types/country-codes'
 import type { PlayerPosition } from '../../types/player-positions'
 import type {
   MarketValueDevelopmentEntity,
-  PlayerProfile,
-  PlayerSearchReponse,
+  PlayerProfile
 } from '../../types/transfer-market.dto.js'
 import type { UpdateSquad } from '../../types/update-squad.interface'
-import background from '../../public/images/pozadina.png'
-import Image from 'next/image'
 import { trpc } from '../../utils/trpc'
-import { useStoreHook } from '../../store/useStoreHook'
-import { retiredClubName } from '../../types/country-codes'
 
 const PlayerSearch = () => {
   const router = useRouter()
