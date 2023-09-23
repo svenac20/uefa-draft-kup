@@ -55,12 +55,12 @@ const useGameSettingsStore = create<GameSettingsState>()(
           const playerPerks: Array<Perks> = []
           for (let i = 0; i < numOfPlayers; i++) {
             playerPerks.push({
-              icon: true,
+              icon: false,
               veto: false,
               wheel: false,
-              yellowCard: true,
+              yellowCard: false,
               reroll: false,
-              u21: true,
+              u21: false,
             })
           }
 
