@@ -9,6 +9,7 @@ Technologies and tools used (T3 stack):
 - **Zustand** - for managing state
 - **React Query** - for fetching and caching
 
+Application is deployed on Vercel
 ### Basic rules
 1. Define the number of players and the budget for each player
 2. One player picks the position and the player and the other players pick the player for that same postion
