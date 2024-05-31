@@ -36,7 +36,7 @@ export const SquadPlayercard = ({
     return squad[index]?.get(position) ?? null
   }
 
-  const icon = data?.club == retiredClubName
+  const icon = data?.club == retiredClubName || data?.club.includes("--")
 
   const onRemovePlayer = () => {
     const player = getPlayer(index)
@@ -69,7 +69,7 @@ export const SquadPlayercard = ({
               className={`relative flex h-full w-60 cursor-pointer flex-col rounded-md border-2 ${icon ? "border-white" :"border-green-800" }`}
               onClick={() => setShowModal(true)}
             >
-              {data.club == retiredClubName ? <Image src={cardIcon} fill={true} alt="kartica-icon" sizes="100%" /> : <Image src={card} fill={true} alt="kartica" sizes="100%" /> }
+              {icon ? <Image src={cardIcon} fill={true} alt="kartica-icon" sizes="100%" /> : <Image src={card} fill={true} alt="kartica" sizes="100%" /> }
               <div className="absolute -z-10 ml-1 h-1/2 w-player-image">
                 <Image
                   src={data.playerImage.replace('medium', 'big')}
@@ -100,7 +100,7 @@ export const SquadPlayercard = ({
                 <div className="relative z-10 ml-4 mt-[2px] flex h-[23%] w-[73%] justify-center truncate rounded-xl ">
                   <span className=" truncate font-bold">{data.club}</span>
                 </div>
-                <div className="w-player-price  relative ml-2 mt-[4px] flex flex h-[23%] w-[73%] items-center justify-center rounded-xl font-bold ">
+                <div className="w-player-price  relative ml-2 mt-[4px] flex h-[23%] w-[73%] items-center justify-center rounded-xl font-bold ">
                   <span className="ml-2">{data.marketValue}</span>
                 </div>
               </div>

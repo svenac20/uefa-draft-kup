@@ -53,7 +53,7 @@ export const CountryCodeMap: Map<string, string> = new Map<string, string>([
   ['Congo, The Democratic Republic of the', 'CD'],
   ['Cook Islands', 'CK'],
   ['Costa Rica', 'CR'],
-  ["Cote D'Ivoire", 'CI'],
+  ["Cote d'Ivoire", 'CI'],
   ['Croatia', 'HR'],
   ['Cuba', 'CU'],
   ['Cyprus', 'CY'],

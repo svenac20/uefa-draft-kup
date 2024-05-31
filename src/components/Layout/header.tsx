@@ -2,8 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import fortuneWheel from '../../public/images/fortune-wheel.png'
 import icon from '../../public/images/soccer-player.png'
-import veto from '../../public/images/veto.png'
-import yellowCard from '../../public/images/yellow-card.png'
+import money from '../../public/images/money.png'
 import reroll from '../../public/images/dices.png'
 import u21 from '../../public/images/u21.png'
 import useGameSettingsStore from '../../store/game-settings-store'
@@ -14,6 +13,7 @@ const Header = () => {
   const setPlayerNames = useGameSettingsStore(state => state.setPlayerNames)
   const setSelectedPlayer = useGameSettingsStore(state => state.setSelectedPlayer)
   const updatePerk =useGameSettingsStore(state => state.updatePerk)
+  const addMoney = useGameSettingsStore(state => state.increaseBudget)
 
   const selectedPlayer = useStoreHook(useGameSettingsStore, (state) => state.selectedPlayer)
   const playerBudget = useStoreHook(useGameSettingsStore, (state) => state.playersBudget)
@@ -113,20 +113,6 @@ const Header = () => {
                     }}
                   />
                   <Image
-                    src={veto}
-                    alt="old-man-icon"
-                    height={30}
-                    className={`${
-                      playerPerks[index]?.veto
-                        ? 'opacity-40'
-                        : 'opacity-100'
-                    }`}
-                    onClick={(e) => {
-                      updatePerk(index, 'veto')
-                      e.stopPropagation()
-                    }}
-                  />
-                  <Image
                     src={reroll}
                     alt="yellow-card"
                     height={30}
@@ -141,20 +127,6 @@ const Header = () => {
                     }}
                   />
                   <Image
-                    src={yellowCard}
-                    alt="yellow-card"
-                    height={30}
-                    className={`${
-                      playerPerks[index]?.yellowCard
-                        ? 'opacity-40'
-                        : 'opacity-100'
-                    }`}
-                    onClick={(e) => {
-                      updatePerk(index, 'yellowCard')
-                      e.stopPropagation()
-                    }}
-                  />
-                  <Image
                     src={u21}
                     alt="u21"
                     height={30}
@@ -164,10 +136,19 @@ const Header = () => {
                         : 'opacity-100'
                     }`}
                     onClick={(e) => {
-                      // updatePerk(index, 'u21')
                       e.stopPropagation()
                     }}
                   />
+                  <Image
+                    src={money}
+                    alt="money"
+                    height={30}
+                    onClick={(e) => {
+                      addMoney(selectedPlayer, 30)
+                      e.stopPropagation()
+                    }}
+                  >
+                  </Image>
                 </div>
               </div>
             </div>

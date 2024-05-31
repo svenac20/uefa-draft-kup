@@ -11,15 +11,14 @@ interface GameSettingsState {
   setPlayerNames: (name: string, index: number) => void
   setSelectedPlayer: (index: number) => void
   updateBudget: (index: number, playerValue: number) => void
+  increaseBudget: (index: number, increase: number) => void
   updatePerk: (index: number, perk: string) => void
   updateBudgetOnPlayerRemoval: (index: number, playerValue: number) => void
 }
 
 interface Perks {
-  veto: boolean
   icon: boolean
   wheel: boolean
-  yellowCard: boolean
   reroll: boolean
   u21: boolean
 }
@@ -33,12 +32,16 @@ const setPlayerName = (
   return initalNames
 }
 
+const addMoneyToPlayer = (amount: number, index: number) => {
+  return;
+}
+
 const setPlayerBudget = (
   budgets: Array<number>,
   index: number,
   value: number
 ) => {
-  budgets[index] -= isNaN(value) ? 0 : value
+  budgets[index]! -= isNaN(value) ? 0 : value
   return budgets
 }
 
@@ -55,12 +58,10 @@ const useGameSettingsStore = create<GameSettingsState>()(
           const playerPerks: Array<Perks> = []
           for (let i = 0; i < numOfPlayers; i++) {
             playerPerks.push({
-              icon: true,
-              veto: false,
+              icon: false,
               wheel: false,
-              yellowCard: true,
               reroll: false,
-              u21: true,
+              u21: false,
             })
           }
 
@@ -88,6 +89,13 @@ const useGameSettingsStore = create<GameSettingsState>()(
             ),
           }))
         },
+        increaseBudget(index, increase) {
+          set((state) => {
+            const newBudgets = [...state.playersBudget];
+            newBudgets[index]! += increase
+            return { playersBudget: newBudgets };
+          })
+        },
         updatePerk(index, perkKey) {
           set((state) => {
             const key = perkKey as keyof Perks
@@ -105,7 +113,7 @@ const useGameSettingsStore = create<GameSettingsState>()(
         updateBudgetOnPlayerRemoval(index, playerValue) {
           set((state) => {
             const budget = state.playersBudget
-            budget[index] += playerValue
+            budget[index]! += playerValue
             return { playersBudget: budget }
           })
         },

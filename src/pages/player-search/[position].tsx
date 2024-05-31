@@ -49,7 +49,7 @@ const PlayerSearch = () => {
     if (Number(player.marketValue.age) <= 21) {
       updatePerks(selectedPlayer, "u21");
     } 
-    if (player.playerProfile.club == retiredClubName) {
+    if (player.playerProfile.club == retiredClubName || player.playerProfile.club.includes("---")) {
       updatePerks(selectedPlayer, "icon")
     }
     updateBudget(
