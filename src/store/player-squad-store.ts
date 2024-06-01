@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { createJSONStorage, devtools, persist } from 'zustand/middleware'
+import { devtools, persist } from 'zustand/middleware'
 import type { PlayerPosition } from '../types/player-positions'
 import type { UpdateSquad } from '../types/update-squad.interface'
 import { getMarketValue } from '../utils/formatters'

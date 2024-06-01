@@ -1,13 +1,13 @@
 import Image from 'next/image'
 import { useState } from 'react'
-import fortuneWheel from '../../public/images/fortune-wheel.png'
-import icon from '../../public/images/soccer-player.png'
-import money from '../../public/images/money.png'
+import { env } from '../../env/server.mjs'
 import reroll from '../../public/images/dices.png'
+import fortuneWheel from '../../public/images/fortune-wheel.png'
+import money from '../../public/images/money.png'
+import icon from '../../public/images/soccer-player.png'
 import u21 from '../../public/images/u21.png'
 import useGameSettingsStore from '../../store/game-settings-store'
 import { useStoreHook } from '../../store/useStoreHook'
-import { env } from '../../env/server.mjs'
 
 const Header = () => {
   const setPlayerNames = useGameSettingsStore(state => state.setPlayerNames)
@@ -107,8 +107,7 @@ const Header = () => {
                     onClick={(e) => {
                       updatePerk(index, 'wheel')
                       if (e.ctrlKey) {
-                        var pop =window.open(env.NEXT_PUBLIC_WHEEL_LINK) 
-                        pop?.focus()
+                        window.open(env.NEXT_PUBLIC_WHEEL_LINK) 
                       }
                       e.stopPropagation()
                     }}
@@ -144,9 +143,16 @@ const Header = () => {
                     src={money}
                     alt="money"
                     height={30}
+                    className={`cursor-pointer ${
+                      playerPerks[index]?.money
+                        ? 'opacity-40'
+                        : 'opacity-100'}`}
                     onClick={(e) => {
+                      if (playerPerks[index]?.money) {
+                        return;
+                      }
+                      updatePerk(index, "money")
                       addMoney(index, 30)
-                      
                       e.stopPropagation()
                     }}
                   >

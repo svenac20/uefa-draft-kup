@@ -21,6 +21,7 @@ interface Perks {
   wheel: boolean
   reroll: boolean
   u21: boolean
+  money: boolean
 }
 
 const setPlayerName = (
@@ -30,10 +31,6 @@ const setPlayerName = (
 ): Array<string> => {
   initalNames[index] = name
   return initalNames
-}
-
-const addMoneyToPlayer = (amount: number, index: number) => {
-  return;
 }
 
 const setPlayerBudget = (
@@ -62,6 +59,7 @@ const useGameSettingsStore = create<GameSettingsState>()(
               wheel: false,
               reroll: false,
               u21: false,
+              money: false,
             })
           }
 
