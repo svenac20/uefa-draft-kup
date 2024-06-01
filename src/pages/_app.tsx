@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <div className="h-screen">
+      <div className="h-screen font-fifa">
         <Component {...pageProps} />
       </div>
     </SessionProvider>

@@ -17,12 +17,12 @@ export const IconPlayerCard = ({
       <Image src={iconCard} fill={true} alt="kartica" sizes="100%" />
 
       {/* Player image section */}
-      <div className="absolute top-[12%] left-[18%] -z-10 h-[52%] w-[60%]">
+      <div className="absolute top-[12%] left-[20%] -z-10 h-[52%] w-[60%]">
         <Image src={playerImage} alt="player-image" fill={true} sizes="100%" />
       </div>
 
       {/* Player name section */}
-      <div className={`absolute z-10 h-[10%] w-[82%] text-center align-middle ${textSmall ? 'text-sm bottom-[23%] left-[9%]' : 'text-2xl bottom-[21%] left-[8%]'} font-bold`}>
+      <div className={`absolute z-10 h-[10%] w-[82%] text-center align-middle ${textSmall ? 'text-sm bottom-[22%] left-[9%]' : 'text-2xl bottom-[21%] left-[8%]'} font-bold`}>
         <div className="w-full h-full align-middle">{name}</div>
       </div>
 
