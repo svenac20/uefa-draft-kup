@@ -4,6 +4,7 @@ import { SquadPlayercard } from '../components/squad-player'
 import useGameSettingsStore from '../store/game-settings-store'
 import { useStoreHook } from '../store/useStoreHook'
 import Image from 'next/image'
+import background from '../public/images/pozadina.png'
 
 const PlayerSquad: NextPage = () => {
   const index = useStoreHook(useGameSettingsStore, (state) => state.selectedPlayer)
