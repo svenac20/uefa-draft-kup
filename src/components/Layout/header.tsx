@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <>
       { !playerNames ? <div>Nothing</div> :
-      <div className={`flex h-24 items-center justify-around border-b-4`}>
+      <div className={`flex h-24 items-center justify-around border-b-4 font-fifa`}>
           {playerNames.map((item, index) => (
             <div
               key={index}
@@ -55,14 +55,14 @@ const Header = () => {
 
                   {!showPrice && (
                     <button
-                      className="rounded bg-white px-2 py-1 font-bold text-slate-700"
+                      className="rounded bg-white px-2 py-1 font-bold text-slate-700 font-mono"
                       onClick={(e) => {
                         e.preventDefault()
                         setShowPrice(true)
                         e.stopPropagation()
                       }}
                     >
-                      Budget
+                      €
                     </button>
                   )}
                   {showPrice && playerBudget[index] && (
@@ -144,7 +144,7 @@ const Header = () => {
                     alt="money"
                     height={30}
                     onClick={(e) => {
-                      addMoney(selectedPlayer, 30)
+                      addMoney(index, 30)
                       e.stopPropagation()
                     }}
                   >

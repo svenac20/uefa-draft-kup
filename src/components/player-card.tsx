@@ -47,7 +47,7 @@ export const PlayerCard = ({
         onModalConfirm={onModalConfirm}
       />
       <div
-        className="relative flex h-full max-h-[370px]  w-full cursor-pointer flex-col rounded-md border-2 border-green-800 font-fifa text-xl"
+        className="relative flex h-full max-h-[370px]  w-full cursor-pointer flex-col font-fifa text-xl"
         onClick={() => setShowModal(true)}
       >
         <Image src={card} fill={true} alt="kartica" />

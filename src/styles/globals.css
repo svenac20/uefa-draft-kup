@@ -6,10 +6,18 @@
   body {
     @apply bg-gray-800 text-white h-screen
   }
+  .font-outline-1 {
+    -webkit-text-stroke: 1px black;
+  }
+  .font-outline-0 {
+    -webkit-text-stroke: 0.4px black;
+  }
 }
 
+@layer utilities {
+}
 
 @font-face {
   font-family: fifa-font;
-  src: url("../public/fonts/643-font.otf") format("opentype");
+  src: url("../public/fonts/CruyffSans-Bold.ttf") format("opentype");
 }

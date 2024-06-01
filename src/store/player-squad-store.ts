@@ -1,7 +1,8 @@
 import { create } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { createJSONStorage, devtools, persist } from 'zustand/middleware'
 import type { PlayerPosition } from '../types/player-positions'
 import type { UpdateSquad } from '../types/update-squad.interface'
+import { getMarketValue } from '../utils/formatters'
 
 const usePlayerSquadStore = create<PlayerSquad>()(
   devtools(
@@ -30,12 +31,9 @@ const usePlayerSquadStore = create<PlayerSquad>()(
               age: Number(playerProfile.age),
               countryImage: playerProfile.countryImage,
               playerImage: playerProfile.playerImage,
-              marketValue:
-                marketValue.marketValue +
-                marketValue.marketValueNumeral.toLocaleUpperCase() +
-                ' ' +
-                marketValue.marketValueCurrency.toLocaleUpperCase(),
+              marketValue: getMarketValue(playerProfile.marketValue, playerProfile.marketValueNumeral, playerProfile.marketValueCurrency),
               club: playerProfile.club,
+              clubImage: playerProfile.clubImage.replace("medium", "big")
             })
 
             playerSquad[index] = currentSquad
@@ -86,13 +84,14 @@ interface PlayerSquad {
   removePlayerFromSquad: (index: number, position: PlayerPosition) => void
 }
 
-interface SquadPlayer {
+export interface SquadPlayer {
   playerName: string
   playerImage: string
   age: number
   countryImage: string
   marketValue: string
   club: string
+  clubImage: string
 }
 
 export default usePlayerSquadStore
