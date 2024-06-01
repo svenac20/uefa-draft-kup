@@ -36,7 +36,8 @@ const PlayerSearch = () => {
 
   const handleSelectPlayer = (
     playerProfile: PlayerProfile,
-    marketValue: MarketValueDevelopmentEntity
+    marketValue: MarketValueDevelopmentEntity,
+    deadPick: boolean
   ) => {
     const player: UpdateSquad = {
       index: selectedPlayer,
@@ -45,13 +46,16 @@ const PlayerSearch = () => {
       position: position as PlayerPosition,
     }
 
-    addPlayerToSquad(player)
+    addPlayerToSquad(player, deadPick)
+    if (deadPick) {
+      router.push('/player-squad')
+      return;
+    }
+
     if (Number(player.marketValue.age) <= 21) {
       updatePerks(selectedPlayer, "u21");
     } 
-    console.log(player.playerProfile.club)
     if (player.playerProfile.club == retiredClubName || player.playerProfile.club.includes("--")) {
-      console.log("removam")
       updatePerks(selectedPlayer, "icon")
     }
     updateBudget(

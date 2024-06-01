@@ -17,7 +17,7 @@ const usePlayerSquadStore = create<PlayerSquad>()(
               squad: new Array(numberOfPlayers),
             }
           }),
-        addPlayerToSquad: (updateEntity) =>
+        addPlayerToSquad: (updateEntity, isDeadPick) =>
           set((state) => {
             const { index, playerProfile, marketValue } = updateEntity
             const playerSquad = [...state.squad]
@@ -33,7 +33,8 @@ const usePlayerSquadStore = create<PlayerSquad>()(
               playerImage: playerProfile.playerImage,
               marketValue: getMarketValue(playerProfile.marketValue, playerProfile.marketValueNumeral, playerProfile.marketValueCurrency),
               club: playerProfile.club,
-              clubImage: playerProfile.clubImage.replace("medium", "big")
+              clubImage: playerProfile.clubImage.replace("medium", "big"),
+              isDeadPick: isDeadPick
             })
 
             playerSquad[index] = currentSquad
@@ -80,7 +81,7 @@ interface PlayerSquad {
   numberOfPlayers: number
   squad: Array<Map<PlayerPosition, SquadPlayer>>
   setNumberOfPlayers: (numberOfPlayers: number) => void
-  addPlayerToSquad: (updateEntity: UpdateSquad) => void
+  addPlayerToSquad: (updateEntity: UpdateSquad, isDeadPick: boolean) => void
   removePlayerFromSquad: (index: number, position: PlayerPosition) => void
 }
 
@@ -92,6 +93,7 @@ export interface SquadPlayer {
   marketValue: string
   club: string
   clubImage: string
+  isDeadPick: boolean
 }
 
 export default usePlayerSquadStore

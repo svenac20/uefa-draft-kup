@@ -41,6 +41,11 @@ export const SquadPlayercard = ({
   const onRemovePlayer = () => {
     const player = getPlayer(index)
     removePlayerFromSquad(index, position)
+    if (player?.isDeadPick) {
+      refetch()
+      return
+    }
+
     if (player?.age && player.age <= 21) {
       updatePerk(index, 'u21')
     }
@@ -76,6 +81,7 @@ export const SquadPlayercard = ({
               show={showModal}
               showModal={setShowModal}
               onModalConfirm={onRemovePlayer}
+              showDeadPick={false}
             />
             <div
               className={`relative flex h-full w-56 max-w-xs cursor-pointer`}

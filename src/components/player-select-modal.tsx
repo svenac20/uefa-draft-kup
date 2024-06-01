@@ -1,22 +1,32 @@
+import { useState } from "react"
+
 export const PlayerSelectModal = ({
   show,
   text,
+  showDeadPick,
   showModal,
   onModalConfirm,
 }: {
   show: boolean
   text?: string 
   showModal: (value: boolean) => void
-  onModalConfirm: () => void
-
+  showDeadPick: boolean
+  onModalConfirm: (deadpick: boolean) => void
 }) => {
+   const [isChecked, setIsChecked] = useState(false);
+
+  // Step 3: Handle checkbox change
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
   const handleCancelClick = () => {
     showModal(false)
   }
 
   const handleConfirmClick = () => {
     showModal(false)
-    onModalConfirm()
+    onModalConfirm(isChecked)
   }
   return (
     <>
@@ -31,6 +41,12 @@ export const PlayerSelectModal = ({
                   <p className="my-4 text-lg font-bold leading-relaxed text-white">
                     {text || 'Do you want to select this player?'}
                   </p>
+                  {showDeadPick ? 
+                  <div className="flex items-center justify-center mb-4">
+                      <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" onClick={handleCheckboxChange}/>
+                      <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 ml-2">Is this a dead pick?</label>
+                  </div>
+                  : <></>}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-between rounded-b border-t border-solid border-slate-200 p-6">

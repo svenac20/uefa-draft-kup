@@ -21,7 +21,8 @@ export const PlayerSearchCard = ({
   player: PlayersEntity
   selectedPlayer: (
     player: PlayerProfile,
-    marketValue: MarketValueDevelopmentEntity
+    marketValue: MarketValueDevelopmentEntity,
+    isDeadPick: boolean
   ) => void
 }) => {
   const [showModal, setShowModal] = useState(false)
@@ -37,9 +38,9 @@ export const PlayerSearchCard = ({
     e.stopPropagation()
   }
 
-  const onModalConfirm = () => {
+  const onModalConfirm = (isDeadPick:boolean) => {
     if (data) {
-      selectedPlayer(data?.playerProfile, data?.marketValue)
+      selectedPlayer(data?.playerProfile, data?.marketValue, isDeadPick)
     }
   }
 
@@ -62,6 +63,7 @@ export const PlayerSearchCard = ({
       <PlayerSelectModal
         show={showModal}
         showModal={setShowModal}
+        showDeadPick={true}
         onModalConfirm={onModalConfirm}
       />
       <div
