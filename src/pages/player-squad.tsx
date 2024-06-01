@@ -10,7 +10,7 @@ const PlayerSquad: NextPage = () => {
   const index = useStoreHook(useGameSettingsStore, (state) => state.selectedPlayer)
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen  flex-col">
       <Header></Header>
       <div className="flex flex-grow flex-col gap-10 p-4 relative">
         <Image src={background} alt={"background"} fill={true} className='-z-10 opacity-30'></Image>
