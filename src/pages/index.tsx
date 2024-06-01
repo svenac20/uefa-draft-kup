@@ -48,7 +48,7 @@ const Home: NextPage = () => {
           ></input>
         </div>
         <button
-          className="bg-black-100 mt-6 h-10 rounded border-2 font-bold"
+          className="bg-black-100 mt-6 h-10 rounded border-2 font-bold cursor-pointer"
           onClick={startGame}
         >
           Start game
