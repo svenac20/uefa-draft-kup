@@ -13,7 +13,7 @@ export const StandardPlayerCard = ({
       <Image src={image} fill={true} alt="kartica" sizes="100%" />
 
       {/* AGE section*/}
-      <div className="absolute right-[20%] top-[13%] z-50">
+      <div className="absolute right-[20%] top-[13%] z-10">
         <span className={`font-outline-0 text-[1.4em] font-bold`}>
           {data.age}
         </span>
@@ -40,7 +40,7 @@ export const StandardPlayerCard = ({
       </div>
 
       {/* Country image section */}
-      <div className="absolute bottom-[4%] right-[11%] z-10 h-[20%] w-[90px]">
+      <div className="absolute bottom-[4%] right-[11%] z-10 h-[20%] w-[40%]">
         <div className="relative h-full w-full [clip-path:polygon(0_0,100%_0,100%_44%,0_100%)]">
           <Image
             src={data.countryImage}

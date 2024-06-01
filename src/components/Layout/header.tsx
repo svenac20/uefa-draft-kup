@@ -107,7 +107,8 @@ const Header = () => {
                     onClick={(e) => {
                       updatePerk(index, 'wheel')
                       if (e.ctrlKey) {
-                        window.open(env.NEXT_PUBLIC_WHEEL_LINK)
+                        var pop =window.open(env.NEXT_PUBLIC_WHEEL_LINK) 
+                        pop?.focus()
                       }
                       e.stopPropagation()
                     }}
@@ -145,6 +146,7 @@ const Header = () => {
                     height={30}
                     onClick={(e) => {
                       addMoney(index, 30)
+                      
                       e.stopPropagation()
                     }}
                   >

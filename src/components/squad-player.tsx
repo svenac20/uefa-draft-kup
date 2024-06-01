@@ -10,6 +10,7 @@ import type { PlayerPosition } from '../types/player-positions'
 import { EmptyPlayerCard } from './empty-player-card'
 import { PlayerSelectModal } from './player-select-modal'
 import { StandardPlayerCard } from './standard-player-card'
+import { IconPlayerCard } from './icon-player-card'
 
 export const SquadPlayercard = ({
   position,
@@ -36,8 +37,6 @@ export const SquadPlayercard = ({
   const getPlayer = (index: number) => {
     return squad[index]?.get(position) ?? null
   }
-
-  const icon = data?.club == retiredClubName || data?.club.includes('--')
 
   const onRemovePlayer = () => {
     const player = getPlayer(index)
@@ -82,12 +81,21 @@ export const SquadPlayercard = ({
               className={`relative flex h-full w-56 max-w-xs cursor-pointer`}
               onClick={() => setShowModal(true)}
             >
-              <StandardPlayerCard data={data} image={getPlayerImage()}/>
+              {data.club == retiredClubName || data.club.includes('---') ? (
+                <IconPlayerCard
+                  name={data.playerName}
+                  countryImage={data.countryImage}
+                  playerImage={data.playerImage}
+                  textSmall={true}
+                ></IconPlayerCard>
+              ) : (
+                <StandardPlayerCard data={data} image={getPlayerImage()} />
+              )}
             </div>
           </div>
         </>
       ) : (
-        <EmptyPlayerCard position={position}/>
+        <EmptyPlayerCard position={position} />
       )}
     </>
   )

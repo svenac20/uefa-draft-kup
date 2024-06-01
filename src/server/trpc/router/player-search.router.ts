@@ -37,7 +37,7 @@ export const playerSearchRouter = router({
           (player.playerImage = player.playerImage.replace('medium', 'big'))
       )
 
-      return players?.slice(0, 5)
+      return players?.slice(0, 3)
     }),
 
   playerValue: publicProcedure

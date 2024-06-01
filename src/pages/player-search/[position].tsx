@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Header from '../../components/Layout/header'
-import { PlayerCard } from '../../components/player-card'
+import { PlayerSearchCard } from '../../components/player-search-card'
 import useGameSettingsStore from '../../store/game-settings-store'
 import usePlayerSquadStore from '../../store/player-squad-store'
 import { retiredClubName } from '../../types/country-codes'
@@ -49,7 +49,9 @@ const PlayerSearch = () => {
     if (Number(player.marketValue.age) <= 21) {
       updatePerks(selectedPlayer, "u21");
     } 
-    if (player.playerProfile.club == retiredClubName || player.playerProfile.club.includes("---")) {
+    console.log(player.playerProfile.club)
+    if (player.playerProfile.club == retiredClubName || player.playerProfile.club.includes("--")) {
+      console.log("removam")
       updatePerks(selectedPlayer, "icon")
     }
     updateBudget(
@@ -95,16 +97,12 @@ const PlayerSearch = () => {
           </div>
         </div>
 
-        <div className="items-top grid h-full w-full grid-cols-5 flex-row justify-around gap-10 px-8 pl-2 pt-20">
+        <div className="grid h-full w-full grid-cols-3 flex-row justify-around gap-28 p-20 align-middle items-center">
           {!isFetching &&
             data &&
             data.map((player) => {
               return (
-                <PlayerCard
-                  player={player}
-                  selectedPlayer={handleSelectPlayer}
-                  key={player.id}
-                ></PlayerCard>
+                <PlayerSearchCard key={player.id} player={player} selectedPlayer={handleSelectPlayer}/>
               )
             })}
           {isFetching && (
