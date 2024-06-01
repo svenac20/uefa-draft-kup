@@ -120,7 +120,7 @@ export const PlayerSearchCard = ({
               </div>
 
               {/* Market value section */}
-              <div className="absolute right-[3%] top-[49%] flex  h-[14%] max-w-[25%] items-center justify-center rounded-full align-middle text-base">
+              <div className="absolute right-[5%] top-[49%] flex  h-[14%] max-w-[25%] items-center justify-center rounded-full align-middle text-base">
                 {!data ? (
                   <button
                     className="h-full rounded-full p-2  py-2.5 text-center text-base font-bold text-white hover:bg-yellow-600"
