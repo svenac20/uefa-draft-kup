@@ -3,6 +3,7 @@ import Header from '../components/Layout/header'
 import { SquadPlayercard } from '../components/squad-player'
 import useGameSettingsStore from '../store/game-settings-store'
 import { useStoreHook } from '../store/useStoreHook'
+import Image from 'next/image'
 
 const PlayerSquad: NextPage = () => {
   const index = useStoreHook(useGameSettingsStore, (state) => state.selectedPlayer)
