@@ -7,10 +7,11 @@ import useGameSettingsStore from '../store/game-settings-store'
 import usePlayerSquadStore from '../store/player-squad-store'
 import { retiredClubName } from '../types/country-codes'
 import type { PlayerPosition } from '../types/player-positions'
-import { EmptyPlayerCard } from './empty-player-card'
+import { EmptyPlayerCard } from './player-cards/empty-player-card'
 import { PlayerSelectModal } from './player-select-modal'
-import { StandardPlayerCard } from './standard-player-card'
-import { IconPlayerCard } from './icon-player-card'
+import { StandardPlayerCard } from './player-cards/standard-player-card'
+import { IconPlayerCard } from './player-cards/icon-player-card'
+import { DeadPlayerCard } from './player-cards/dead-player-card'
 
 export const SquadPlayercard = ({
   position,
@@ -95,7 +96,13 @@ export const SquadPlayercard = ({
                   textSmall={true}
                 ></IconPlayerCard>
               ) : (
-                <StandardPlayerCard data={data} image={getPlayerImage()} />
+                <>
+                  {data.isDeadPick ? (
+                    <DeadPlayerCard playerImage={data.playerImage} />
+                  ) : (
+                    <StandardPlayerCard data={data} image={getPlayerImage()} />
+                  )}
+                </>
               )}
             </div>
           </div>

@@ -12,7 +12,7 @@ import card from '../public/images/BASECARD.png'
 import u21Card from '../public/images/U21-card.png'
 import oldManIcon from '../public/images/starac-kartica.png'
 import { retiredClubName } from '../types/country-codes'
-import { IconPlayerCard } from './icon-player-card'
+import { IconPlayerCard } from './player-cards/icon-player-card'
 
 export const PlayerSearchCard = ({
   player,
@@ -120,7 +120,7 @@ export const PlayerSearchCard = ({
               </div>
 
               {/* Market value section */}
-              <div className="absolute right-[4%] top-[49%] flex  h-[14%] max-w-[25%] items-center justify-center rounded-full align-middle text-base">
+              <div className="absolute right-[2%] top-[49%] flex h-[14%] w-[25%] items-center justify-center rounded-full align-middle text-base ">
                 {!data ? (
                   <button
                     className="h-full rounded-full text-center text-base font-bold text-white hover:bg-yellow-600 p-[10px]"
@@ -129,7 +129,7 @@ export const PlayerSearchCard = ({
                     <span>Show info</span>
                   </button>
                 ) : (
-                  <div className={`mr-2 text-2xl font-bold`}>
+                  <div className={`text-2xl font-bold`}>
                     <span>
                       {getMarketValue(
                         data.marketValue.marketValue,
@@ -143,10 +143,10 @@ export const PlayerSearchCard = ({
 
               {/*Player age section*/}
               {data ? (
-                <div className="absolute right-[19%] top-[15%] z-10 text-3xl">
-                  <span className={`font-outline-0 text-[1.4em] font-bold`}>
+                <div className="absolute right-[15%] top-[11%] z-10 text-3xl rounded-full h-[16%] w-[20%]">
+                  <div className={`font-outline-0 text-[1.4em] font-bold w-full h-full flex justify-center items-center`}>
                     {data.playerProfile.age}
-                  </span>
+                  </div>
                 </div>
               ) : (
                 <></>
